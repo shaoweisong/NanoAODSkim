@@ -60,7 +60,8 @@ def main():
 
     # Determine the year and type (MC or Data)
     first_file = testfilelist[0]
-    isMC = "/data/" not in first_file
+    # isMC = "UL201" not in first_file
+    isMC = "UL201" not in first_file
 
     if "UL18" in first_file or "UL2018" in first_file:
         """UL2018 for identification of 2018 UL data and UL18 for identification of 2018 UL MC

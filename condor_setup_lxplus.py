@@ -5,7 +5,7 @@ python3 condor_setup_lxplus.py
 import argparse
 import os
 import sys
-
+import glob
 sys.path.append("Utils/.")
 
 from color_style import style
@@ -50,7 +50,7 @@ def main(args):
     output_log_path = dirsToCreate.create_log_dir_with_date()
     storeDir = dirsToCreate.create_store_area(EOS_Output_path)
     dirName = dirsToCreate.dir_name
-
+    print("dirName",dirName)
     # create tarball of present working CMSSW base directory
     if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
     import makeTarFile
@@ -86,8 +86,8 @@ def main(args):
             #if count > 1: break
             print(style.RED +"="*51+style.RESET+"\n")
             print ("==> Sample : ",count)
-            sample_name = lines.split('/')[1]
-            campaign = lines.split('/')[2].split('-')[0]
+            sample_name = (lines.split('/')[-1]).split('_')[0]
+            campaign = lines.split('/')[-1].split('_')[1]
             print("==> sample_name = ",sample_name)
             print("==> campaign = ",campaign)
             ########################################
@@ -96,8 +96,9 @@ def main(args):
             #
             ########################################
             if sample_name.find("SingleMuon") != -1 or sample_name.find("SingleElectron") != -1 or sample_name.find("EGamma") != -1 or sample_name.find("DoubleMuon") != -1 or sample_name.find("MuonEG") != -1 or sample_name.find("DoubleEG") != -1:
-                output_string = sample_name + os.sep + campaign + os.sep + dirName
+                output_string = sample_name + os.sep + campaign.strip() + os.sep 
                 output_path = EOS_Output_path + os.sep + output_string
+
                 os.system("mkdir "+EOS_Output_path + os.sep + sample_name)
                 os.system("mkdir "+EOS_Output_path + os.sep + sample_name + os.sep + campaign)
                 os.system("mkdir "+ EOS_Output_path + os.sep + sample_name + os.sep + campaign + os.sep + dirName)
@@ -115,20 +116,22 @@ def main(args):
             #print "..."
             if use_custom_eos:
                 xrd_redirector = 'root://cms-xrd-global.cern.ch/'
-                output = os.popen(use_custom_eos_cmd + lines.strip()).read()
+                output = glob.glob(lines.strip()+"/*.root")
             else:
                 xrd_redirector = 'root://cms-xrd-global.cern.ch/'
                 output = os.popen('dasgoclient --query="file dataset='+lines.strip()+'"').read()
 
             count_root_files = 0
-            for root_file in output.split():
+
+            # for root_file in output.split():
+            for root_file in output:
                 #print "=> ",root_file
                 count_root_files+=1
                 count_jobs += 1
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
-                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+output_path+"  "+EOS_Output_path+"\n")
+                outjdl_file.write("Arguments = "+(xrd_redirector+root_file.split('/eos/cms')[1])+" "+output_path+"  "+EOS_Output_path+"\n")
                 outjdl_file.write("Queue \n")
             print("Number of files: ",count_root_files)
             print("Number of jobs (till now): ",count_jobs)
@@ -194,7 +197,7 @@ class PreserveWhitespaceFormatter(argparse.RawTextHelpFormatter, argparse.Argume
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Condor Job Submission", formatter_class=PreserveWhitespaceFormatter)
-    parser.add_argument("--submission_name", default="Run2018_v9", help="String to be changed by user.")
+    parser.add_argument("--submission_name", default="Run2016_v9", help="String to be changed by user.")
     parser.add_argument("--use_custom_eos", default=False, action='store_true', help="Use custom EOS.")
     parser.add_argument("--DontCreateTarFile", default=False, action='store_true', help="Create tar file of CMSSW directory.")
     parser.add_argument("--use_custom_eos_cmd", default='eos root://cmseos.fnal.gov find -name "*.root" /store/group/lnujj/VVjj_aQGC/custom_nanoAOD', help="Custom EOS command.")

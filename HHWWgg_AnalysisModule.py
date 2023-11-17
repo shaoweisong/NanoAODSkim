@@ -47,7 +47,7 @@ class HHWWgg_AnalysisProducer(Module):
         eventPhotons = 0
 
         for pho in photons :
-            if pho.pt > 25 and pho.scEta < 2.5 and (pho.scEta < 1.4442 or pho.scEta > 1.566) :
+            if pho.pt > 25 and pho.eta < 2.5 and (pho.eta < 1.4442 or pho.eta > 1.566) :
                eventPhotons += 1
         # for lep in muons :
         #     if lep.tightId and lep.pt > 10 :
