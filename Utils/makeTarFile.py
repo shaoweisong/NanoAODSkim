@@ -30,5 +30,5 @@ def make_tarfile(source_dir, output_filename):
     """
     with tarfile.open(output_filename, "w:gz") as tar:
         print("make_tarfile:: Started creating tar file...")
-        # tar.add(source_dir, arcname=os.path.basename(source_dir), filter=filter_function)
+        tar.add(source_dir, arcname=os.path.basename(source_dir), filter=filter_function)
         print("make_tarfile:: Done...")

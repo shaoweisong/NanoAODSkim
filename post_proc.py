@@ -7,7 +7,9 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import Pos
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import createJMECorrector
 from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import btagSFProducer
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.PrefireCorr import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.muonScaleResProducer import muonScaleResProducer
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.LHEScaleWeightProducer import LHEScaleWeightProducer
 from ggTemporaryScale import gammaSFProducer
 
 # Custom module imports
@@ -61,7 +63,7 @@ def main():
     # Determine the year and type (MC or Data)
     first_file = testfilelist[0]
     # isMC = "UL201" not in first_file
-    isMC = "UL201" not in first_file
+    isMC = "signal" in first_file
 
     if "UL18" in first_file or "UL2018" in first_file:
         """UL2018 for identification of 2018 UL data and UL18 for identification of 2018 UL MC
@@ -96,7 +98,7 @@ def main():
         fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK8PFPuppi")
         # btagSF = lambda: btagSFProducer("UL"+str(year), algo="deepjet",selectedWPs=['L','M','T','shape_corr'], sfFileName=sfFileName)
         muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR'+str(year)+'.txt', year)
-
+        LHEScaleSF  = lambda : LHEScaleWeightProducer(year)
         # Format year string for gammaSFProducer
         if year == 2018: gammaYear = "UL18"
         if year == 2017: gammaYear = "UL17"
@@ -104,11 +106,13 @@ def main():
         # if year == 2016: gammaYear = "UL16Post-VFP" # FIXME: update this
         gammaSF = lambda: gammaSFProducer(year)
 
-
+        PrefireCorr2016 = lambda : PrefCorr("L1prefiring_jetpt_2016BtoH.root", "L1prefiring_jetpt_2016BtoH", 'L1prefiring_photonpt_2016BtoH.root', 'L1prefiring_photonpt_2016BtoH',["PrefireWeight", "PrefireWeight_Up", "PrefireWeight_Down"])
+        # PrefireCorr2017 = lambda : PrefCorr('L1prefiring_jetpt_2017BtoF.root', 'L1prefiring_jetpt_2017BtoF', 'L1prefiring_photonpt_2017BtoF.root', 'L1prefiring_photonpt_2017BtoF')
+        print("read prefire model")
         btagSF = lambda: btagSFProducer(era = "UL"+str(year), algo = "deepcsv")
         puidSF = lambda: JetSFMaker("%s" % year)
-        modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF()])
-        # # modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), btagSF(), puidSF()])
+        # modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
+        modulesToRun.extend([LHEScaleSF()])
 
         if year == 2018: modulesToRun.extend([puAutoWeight_2018()])
         if year == 2017: modulesToRun.extend([puAutoWeight_2017()])
@@ -118,6 +122,7 @@ def main():
     else:
         jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK4PFchs")
         fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK8PFPuppi")
+        muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR'+str(year)+'.txt', year)
         modulesToRun.extend([jetmetCorrector(), fatJetCorrector()])
 
         p=PostProcessor(".",testfilelist, None, None, modules = modulesToRun, provenance=True, fwkJobReport=False,haddFileName="skimmed_nano_data.root", jsonInput=jsonFileName, maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop_data.txt")
