@@ -59,6 +59,7 @@ keep MET*
 keep Pileup*
 keep PuppiMET*
 keep RawMET*
+keep FsrPhoton*
 keep RawPuppiMET*
 keep fixedGridRho*
 keep nGenDressedLepton

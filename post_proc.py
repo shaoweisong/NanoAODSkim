@@ -62,8 +62,7 @@ def main():
 
     # Determine the year and type (MC or Data)
     first_file = testfilelist[0]
-    # isMC = "UL201" not in first_file
-    isMC = "signal" in first_file
+    # isMC = "signal" in first_file
 
     if "UL18" in first_file or "UL2018" in first_file:
         """UL2018 for identification of 2018 UL data and UL18 for identification of 2018 UL MC
@@ -96,6 +95,7 @@ def main():
     print("Input cfg file: {}".format(cfgFile))
     print("isMC: {}".format(isMC))
     print("isFSR: {}".format(isFSR))
+    year=2017 # FIXME: update this
     print(year)
     if isMC:
         # btagSF = lambda: btagSFProducer("UL"+str(year), algo="deepjet",selectedWPs=['L','M','T','shape_corr'], sfFileName=sfFileName)
@@ -120,7 +120,7 @@ def main():
         if year == 2016: fixvalue = False # FIXME: update this
         gammaSF = lambda: gammaSFProducer(gammaYear)
         jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=jetYear, jesUncert="All", jetType = "AK4PFchs",applyHEMfix=fixvalue)
-        fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=jetYear, jesUncert="All", jetType = "AK8PFPuppi",applyHEMfix=fixvalue)
+        # fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=jetYear, jesUncert="All", jetType = "AK8PFPuppi",applyHEMfix=fixvalue)
         PrefireCorr2016 = lambda : PrefCorr("L1prefiring_jetpt_2016BtoH.root", "L1prefiring_jetpt_2016BtoH", "L1prefiring_photonpt_2016BtoH.root", "L1prefiring_photonpt_2016BtoH")
 
         PrefireCorr2017 = lambda : PrefCorr('L1prefiring_jetpt_2017BtoF.root', 'L1prefiring_jetpt_2017BtoF', 'L1prefiring_photonpt_2017BtoF.root', 'L1prefiring_photonpt_2017BtoF')
@@ -133,14 +133,14 @@ def main():
         if year == 2016: puyear = 2016
         puidSF = lambda: JetSFMaker("%s" % puyear)
         if year == 2016:
-            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
+            modulesToRun.extend([jetmetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
         if year == "2016pre":
-            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
+            modulesToRun.extend([jetmetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
         if year == 2017:
-            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2017()])
+            modulesToRun.extend([jetmetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2017()])
         if year == 2018:
             print(fixvalue)
-            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF()])
+            modulesToRun.extend([jetmetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF()])
         if year == 2018: modulesToRun.extend([puAutoWeight_UL2018()])
         if year == 2017: modulesToRun.extend([puAutoWeight_UL2017()])
         if year == 2016: modulesToRun.extend([puAutoWeight_UL2016()])
@@ -149,9 +149,9 @@ def main():
         p=PostProcessor(".",testfilelist, None, None,modules = modulesToRun, provenance=True,fwkJobReport=False,haddFileName="skimmed_nano_mc.root", maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop.txt")
     else:
         jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK4PFchs")
-        fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK8PFPuppi")
+        # fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK8PFPuppi")
         muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR'+str(year)+'.txt', year)
-        modulesToRun.extend([jetmetCorrector(), fatJetCorrector()])
+        modulesToRun.extend([jetmetCorrector()])
 
         p=PostProcessor(".",testfilelist, None, None, modules = modulesToRun, provenance=True, fwkJobReport=False,haddFileName="skimmed_nano_data.root", jsonInput=jsonFileName, maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop_data.txt")
 
