@@ -50,6 +50,7 @@ keep nIsoTrack
 keep IsoTrack*
 keep nJet
 keep Jet*
+keep Prefire*
 keep L1PreFiring*
 keep nLowPtElectron
 keep LowPtElectron*

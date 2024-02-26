@@ -83,6 +83,10 @@ def main():
         year = 2016
         jsonFileName = "golden_Json/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON.txt"
         sfFileName = "DeepCSV_102XSF_V2.csv"
+    if "UL2016APV" in first_file:
+        year = "2016pre"
+        jsonFileName = "golden_Json/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON.txt"
+        sfFileName = "DeepCSV_102XSF_V2.csv"
 
     # H4LCppModule = lambda: HZZAnalysisCppProducer(year,cfgFile, isMC, isFSR)
     HHWWgg_AnalysisModule = lambda: HHWWgg_AnalysisProducer()
@@ -92,31 +96,55 @@ def main():
     print("Input cfg file: {}".format(cfgFile))
     print("isMC: {}".format(isMC))
     print("isFSR: {}".format(isFSR))
-
+    print(year)
     if isMC:
-        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK4PFchs")
-        fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK8PFPuppi")
         # btagSF = lambda: btagSFProducer("UL"+str(year), algo="deepjet",selectedWPs=['L','M','T','shape_corr'], sfFileName=sfFileName)
-        muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR'+str(year)+'.txt', year)
-        LHEScaleSF  = lambda : LHEScaleWeightProducer(year)
+        if year == "2016pre":
+            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR2016.txt', 2016)
+            LHEScaleSF  = lambda : LHEScaleWeightProducer(2016)
+        else:
+            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR'+str(year)+'.txt', year)
+            LHEScaleSF  = lambda : LHEScaleWeightProducer(year)
         # Format year string for gammaSFProducer
         if year == 2018: gammaYear = "UL18"
         if year == 2017: gammaYear = "UL17"
-        # if year == 2016: gammaYear = "UL16Pre-VFP" # FIXME: update this
-        # if year == 2016: gammaYear = "UL16Post-VFP" # FIXME: update this
-        gammaSF = lambda: gammaSFProducer(year)
+        if year == "2016pre": gammaYear = "UL16Pre-VFP" # FIXME: update this
+        if year == 2016: gammaYear = "UL16Post-VFP" # FIXME: update this
+        if year == 2018: jetYear = "UL2018"
+        if year == 2017: jetYear = "UL2017"
+        if year == "2016pre": jetYear = "UL2016_preVFP" # FIXME: update this
+        if year == 2016: jetYear = "UL2016" # FIXME: update this
+        if year == 2018: fixvalue = True
+        if year == 2017: fixvalue = False
+        if year == "2016pre": fixvalue = False # FIXME: update this
+        if year == 2016: fixvalue = False # FIXME: update this
+        gammaSF = lambda: gammaSFProducer(gammaYear)
+        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=jetYear, jesUncert="All", jetType = "AK4PFchs",applyHEMfix=fixvalue)
+        fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=jetYear, jesUncert="All", jetType = "AK8PFPuppi",applyHEMfix=fixvalue)
+        PrefireCorr2016 = lambda : PrefCorr("L1prefiring_jetpt_2016BtoH.root", "L1prefiring_jetpt_2016BtoH", "L1prefiring_photonpt_2016BtoH.root", "L1prefiring_photonpt_2016BtoH")
 
-        PrefireCorr2016 = lambda : PrefCorr("L1prefiring_jetpt_2016BtoH.root", "L1prefiring_jetpt_2016BtoH", 'L1prefiring_photonpt_2016BtoH.root', 'L1prefiring_photonpt_2016BtoH',["PrefireWeight", "PrefireWeight_Up", "PrefireWeight_Down"])
-        # PrefireCorr2017 = lambda : PrefCorr('L1prefiring_jetpt_2017BtoF.root', 'L1prefiring_jetpt_2017BtoF', 'L1prefiring_photonpt_2017BtoF.root', 'L1prefiring_photonpt_2017BtoF')
+        PrefireCorr2017 = lambda : PrefCorr('L1prefiring_jetpt_2017BtoF.root', 'L1prefiring_jetpt_2017BtoF', 'L1prefiring_photonpt_2017BtoF.root', 'L1prefiring_photonpt_2017BtoF')
+
         print("read prefire model")
         btagSF = lambda: btagSFProducer(era = "UL"+str(year), algo = "deepcsv")
-        puidSF = lambda: JetSFMaker("%s" % year)
-        # modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
-        modulesToRun.extend([LHEScaleSF()])
-
-        if year == 2018: modulesToRun.extend([puAutoWeight_2018()])
-        if year == 2017: modulesToRun.extend([puAutoWeight_2017()])
-        if year == 2016: modulesToRun.extend([puAutoWeight_2016()])
+        if year == 2018: puyear = 2018
+        if year == 2017: puyear = 2017
+        if year == "2016pre": puyear = 2016
+        if year == 2016: puyear = 2016
+        puidSF = lambda: JetSFMaker("%s" % puyear)
+        if year == 2016:
+            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
+        if year == "2016pre":
+            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
+        if year == 2017:
+            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2017()])
+        if year == 2018:
+            print(fixvalue)
+            modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF()])
+        if year == 2018: modulesToRun.extend([puAutoWeight_UL2018()])
+        if year == 2017: modulesToRun.extend([puAutoWeight_UL2017()])
+        if year == 2016: modulesToRun.extend([puAutoWeight_UL2016()])
+        if year == "2016pre": modulesToRun.extend([puAutoWeight_UL2016()])
 
         p=PostProcessor(".",testfilelist, None, None,modules = modulesToRun, provenance=True,fwkJobReport=False,haddFileName="skimmed_nano_mc.root", maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop.txt")
     else:

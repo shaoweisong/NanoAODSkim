@@ -86,8 +86,14 @@ def main(args):
             #if count > 1: break
             print(style.RED +"="*51+style.RESET+"\n")
             print ("==> Sample : ",count)
-            sample_name = (lines.split('/')[-1]).split('_')[0]
-            campaign = lines.split('/')[-1].split('_')[1]
+            #data
+            # sample_name = (lines.split('/')[-1]).split('_')[0]
+            # campaign = lines.split('/')[-1].split('_')[1]
+            # print("==> sample_name = ",sample_name)
+            # print("==> campaign = ",campaign)
+            #UL16signal
+            sample_name = (lines.split('/')[-1]).strip()
+            campaign = lines.split('/')[-1].split('_')[0]
             print("==> sample_name = ",sample_name)
             print("==> campaign = ",campaign)
             ########################################
@@ -104,11 +110,18 @@ def main(args):
                 os.system("mkdir "+ EOS_Output_path + os.sep + sample_name + os.sep + campaign + os.sep + dirName)
                 infoLogFiles.send_git_log_and_patch_to_eos(EOS_Output_path + os.sep + sample_name + os.sep + campaign + os.sep + dirName)
             else:
-                output_string = sample_name+os.sep+dirName
-                output_path = EOS_Output_path+ os.sep + output_string
-                os.system("mkdir "+EOS_Output_path + os.sep + sample_name)
-                os.system("mkdir "+EOS_Output_path + os.sep + sample_name+os.sep+dirName)
-                infoLogFiles.send_git_log_and_patch_to_eos(EOS_Output_path + os.sep + sample_name + os.sep + dirName)
+                # output_string = sample_name+os.sep+dirName
+                output_string = sample_name+os.sep
+                output_path = EOS_Output_path +  os.sep + campaign + os.sep + output_string
+                print("==> output_string = ",output_string)
+                print("==> dirName = ",dirName)
+                print("==> output_path = ",output_path)
+                print("!!!!!!")
+                os.system("mkdir "+EOS_Output_path + os.sep + campaign)
+                os.system("mkdir "+EOS_Output_path + os.sep + campaign + os.sep + sample_name)
+                # os.system("mkdir "+EOS_Output_path + os.sep + sample_name+os.sep+dirName)
+                # infoLogFiles.send_git_log_and_patch_to_eos(EOS_Output_path + os.sep + sample_name + os.sep + dirName)
+                infoLogFiles.send_git_log_and_patch_to_eos(EOS_Output_path + os.sep + sample_name)
             #  print "==> output_path = ",output_path
 
             ########################################
@@ -128,6 +141,7 @@ def main(args):
                 #print "=> ",root_file
                 count_root_files+=1
                 count_jobs += 1
+                mass_point = root_file.split('/')[-2]
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
