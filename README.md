@@ -9,20 +9,28 @@ nanoAOD skiming code for H->ZZ->2l2Q studies.
    cmsrel CMSSW_10_6_30
    cd CMSSW_10_6_30/src
    cmsenv
+   git cms-init
+   git cms-merge-topic cbernet:heppy_8_0_11
+   cmsenv
+   source /afs/cern.ch/user/s/shsong/public/Heppyconflict/mergeconflict.sh
+   scram b
    ```
 
 2. Step: 2: Get  nanoAODTools
 
    ```bash
+   cd PhysicsTools/
    git clone -b HHWWgg git@github.com:shaoweisong/NanoAODTools.git 
-   cd PhysicsTools/NanoAODTools
+   cd NanoAODTools
+   scram b
    ```
 
 3. Step: 3: Get our analysis repository
 
    ```bash
    cd $CMSSW_BASE/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/
-   git clone -b HH_WWgg_dev git@github.com:shaoweisong/NanoAODSkim.git
+   rm -rf nanoAOD_skim
+   git clone -b HH_WWgg_dev git@github.com:shaoweisong/NanoAODSkim.git nanoAOD_skim
    cd $CMSSW_BASE/src/
    cmsenv
    # patch PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/nanoAOD_tools.patch
