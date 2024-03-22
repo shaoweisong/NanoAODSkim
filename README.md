@@ -11,22 +11,19 @@ nanoAOD skiming code for H->ZZ->2l2Q studies.
    cmsenv
    ```
 
-2. Step: 2: Get  official nanoAODTools
+2. Step: 2: Get  nanoAODTools
 
    ```bash
-   git clone git@github.com:cms-nanoAOD/nanoAOD-tools.git PhysicsTools/NanoAODTools
+   git clone -b HHWWgg git@github.com:shaoweisong/NanoAODTools.git 
    cd PhysicsTools/NanoAODTools
-   git checkout 7a4e7e58421b0be8bc25fc99cfb1dd007b52f3c7 # Updated to commit on 9 August 2023 in official nanoAOD-tools
    ```
 
 3. Step: 3: Get our analysis repository
 
    ```bash
-   cd $CMSSW_BASE/src
-   git clone git@github.com:ram1123/nanoAOD_skim.git PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim
-   cd PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim
-   git checkout HH_WWgg_dev
-   cd -
+   cd $CMSSW_BASE/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/
+   git clone -b HH_WWgg_dev git@github.com:shaoweisong/NanoAODSkim.git
+   cd $CMSSW_BASE/src/
    cmsenv
    # patch PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/nanoAOD_tools.patch
    cp PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/data/btag/*.csv PhysicsTools/NanoAODTools/data/btagSF/.
@@ -44,7 +41,7 @@ nanoAOD skiming code for H->ZZ->2l2Q studies.
 
    ```bash
    cd $CMSSW_BASE/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim
-   python post_proc.py
+   python post_proc.py --entriesToRun 100 --inputFile /eos/cms/store/group/phys_b2g/zhenxuan/custom_nanoAOD/nanoAOD_24Oct2023/UL2018_signal_FH/UL2018/GluGluToRadionToHHTo2G2WTo2G4Q_M-1600/GluGluToRadionToHHTo2G2WTo2G4Q_M-1600_9042687_2.root -m True -y 2018
    ```
 
 5. batch job submission.
@@ -96,3 +93,4 @@ nanoAOD skiming code for H->ZZ->2l2Q studies.
    ```
 
 ## Few important points
+

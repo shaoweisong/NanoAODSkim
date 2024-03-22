@@ -1,13 +1,16 @@
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
-
+from METFilters import passFilters
 from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collection
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 
 class HHWWgg_AnalysisProducer(Module):
-    def __init__(self):
+    def __init__(self,year):
+        self.year = year
+        self.passMETFilters = 0
         pass
     def beginJob(self):
+        print("{:27}:{:7} {}".format("PassMETFilters: ", str(self.passMETFilters), " Events"))
         pass
     def endJob(self):
         pass
@@ -40,6 +43,11 @@ class HHWWgg_AnalysisProducer(Module):
         # fatJets = Collection(event, "FatJet")
         photons = Collection(event, "Photon")
         keepIt = True
+
+        if passFilters(event, int(self.year)):
+            self.passMETFilters += 1
+        else:
+            return keepIt
         # eventElectrons = 0
         # eventMuons = 0
         # eventJets = 0
