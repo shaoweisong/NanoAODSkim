@@ -22,6 +22,8 @@ def parse_arguments():
     parser.add_argument("-i", "--inputFile", default="", type=str, help="Input file name")
     parser.add_argument("-n", "--entriesToRun", default=100, type=int, help="Set  to 0 if need to run over all entries else put number of entries to run")
     parser.add_argument("-d", "--DownloadFileToLocalThenRun", default=True, type=bool, help="Download file to local then run")
+    parser.add_argument("-y", "--moduleyear", default=2017, type=int, help="Year of data taking")
+    parser.add_argument("-m", "--isMC", default=False, type=bool, help="Is MC or not")
     return parser.parse_args()
 
 
@@ -37,13 +39,14 @@ def main():
     # Initial setup
     testfilelist = []
     modulesToRun = []
-    isMC = True
     isFSR = False
     year = None
     cfgFile = None
     jsonFileName = None
     sfFileName = None
-
+    isMC = args.isMC
+    moduleyear = args.moduleyear
+    print("what isMC: {}".format(isMC))
     entriesToRun = int(args.entriesToRun)
     DownloadFileToLocalThenRun = args.DownloadFileToLocalThenRun
 
@@ -67,19 +70,19 @@ def main():
     if "UL18" in first_file or "UL2018" in first_file:
         """UL2018 for identification of 2018 UL data and UL18 for identification of 2018 UL MC
         """
-        year = 2018
+        year = moduleyear
         cfgFile = "Input_2018.yml"
         jsonFileName = "golden_Json/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON.txt"
         sfFileName = "DeepCSV_102XSF_V2.csv"
 
     if "UL17" in first_file or "UL2017" in first_file:
-        year = 2017
+        year = moduleyear
         cfgFile = "Input_2017.yml"
         jsonFileName="golden_Json/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON.txt"
         sfFileName = "DeepCSV_102XSF_V2.csv"
 
     if "UL16" in first_file or "UL2016" in first_file:
-        year = 2016
+        year = moduleyear
         jsonFileName = "golden_Json/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON.txt"
         sfFileName = "DeepCSV_102XSF_V2.csv"
     if "UL2016APV" in first_file:
@@ -88,15 +91,14 @@ def main():
         sfFileName = "DeepCSV_102XSF_V2.csv"
 
     # H4LCppModule = lambda: HZZAnalysisCppProducer(year,cfgFile, isMC, isFSR)
-    HHWWgg_AnalysisModule = lambda: HHWWgg_AnalysisProducer()
+    HHWWgg_AnalysisModule = lambda: HHWWgg_AnalysisProducer(moduleyear)
     modulesToRun.extend([HHWWgg_AnalysisModule()])
 
     print("Input json file: {}".format(jsonFileName))
     print("Input cfg file: {}".format(cfgFile))
     print("isMC: {}".format(isMC))
     print("isFSR: {}".format(isFSR))
-    year=2017 # FIXME: update this
-    print(year)
+
     if isMC:
         # btagSF = lambda: btagSFProducer("UL"+str(year), algo="deepjet",selectedWPs=['L','M','T','shape_corr'], sfFileName=sfFileName)
         if year == "2016pre":
