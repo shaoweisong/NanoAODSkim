@@ -6,8 +6,8 @@ nanoAOD skiming code for X->HH->WWgg studies.
 1. Step: 1: Get CMSSW release
 
    ```bash
-   cmsrel CMSSW_10_6_30
-   cd CMSSW_10_6_30/src
+   cmsrel CMSSW_10_6_20
+   cd CMSSW_10_6_20/src
    cmsenv
    git cms-init
    git cms-merge-topic cbernet:heppy_8_0_11
@@ -78,7 +78,7 @@ nanoAOD skiming code for X->HH->WWgg studies.
 1. [condor_setup_lxplus.py](condor_setup_lxplus.py): This script can be used to setup the condor jobs. It takes the input text file (present inside directory [input_data_Files](input_data_Files)) from which you need to take input NanoAOD DAS names. Also, updated the output EOS path. Then do the following:
 
    ```bash
-   python condor_setup_lxplus.py --input-file sample_list_v9.dat
+   python condor_setup_lxplus.py  --input_file sample_list_test.dat --eos_output_path /eos/user/s/shsong/nanoAODnTuples/nanoAODsys_Mar2024/ --use_custom_eos --submission_name Run2018_test --year 2018 --isMC
    ```
    This will create the condor job files and the condor log files.
 

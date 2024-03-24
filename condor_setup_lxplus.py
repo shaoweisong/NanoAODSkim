@@ -22,7 +22,8 @@ def main(args):
     condor_queue = args.condor_queue
     condor_log_path = args.condor_log_path
     DontCreateTarFile = args.DontCreateTarFile
-
+    year = args.year
+    isMC = args.isMC
     # Get top-level directory name from PWD
     TOP_LEVEL_DIR_NAME = os.path.basename(os.getcwd())
 
@@ -31,7 +32,9 @@ def main(args):
         username = os.environ['USER']
         user_initials = username[0:1]
         EOS_Output_path = '/eos/user/'+user_initials+'/'+username+'/nanoAOD_ntuples'
+    os.system("mkdir "+EOS_Output_path)
     EOS_Output_path += submission_name
+    os.system("mkdir "+EOS_Output_path)
     condor_file_name = 'submit_condor_jobs_lnujj_'+submission_name
 
     # Create log files
@@ -52,14 +55,14 @@ def main(args):
     dirName = dirsToCreate.dir_name
     print("dirName",dirName)
     # create tarball of present working CMSSW base directory
-    if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
     import makeTarFile
+    if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
     if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, CMSSWRel+".tgz")
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
     os.system('cp ' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
-    command = "python "+post_proc_to_run
+    command = "python "+post_proc_to_run 
 
     Transfer_Input_Files = ("keep_and_drop.txt")     # FIXME: Generalise this.
     # Transfer_Input_Files = ("Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt, " +
@@ -67,7 +70,6 @@ def main(args):
     #                         "Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt, " +
     #                         "keep_and_drop_data.txt")
 
-    #with open('input_data_Files/sample_list_v6_2017_campaign.dat') as in_file:
     with open('input_data_Files/'+InputFileFromWhereReadDASNames) as in_file:
         outjdl_file = open(condor_file_name+".jdl","w")
         outjdl_file.write("+JobFlavour   = \""+condor_queue+"\"\n")
@@ -116,7 +118,6 @@ def main(args):
                 print("==> output_string = ",output_string)
                 print("==> dirName = ",dirName)
                 print("==> output_path = ",output_path)
-                print("!!!!!!")
                 os.system("mkdir "+EOS_Output_path + os.sep + campaign)
                 os.system("mkdir "+EOS_Output_path + os.sep + campaign + os.sep + sample_name)
                 # os.system("mkdir "+EOS_Output_path + os.sep + sample_name+os.sep+dirName)
@@ -176,7 +177,7 @@ def main(args):
     outScript.write("\n"+'cat post_proc.py');
     outScript.write("\n"+'echo "..."');
     outScript.write("\n"+'echo "========================================="');
-    outScript.write("\n"+command + " --entriesToRun 0  --inputFile ${1} ");
+    outScript.write("\n"+command + " --entriesToRun 0  --inputFile ${1} -y " + str(year) + " -m "+ str(isMC) );
     outScript.write("\n"+'echo "====> List root files : " ');
     outScript.write("\n"+'ls *.root');
     outScript.write("\n"+'echo "====> copying *.root file to stores area..." ');
@@ -233,7 +234,8 @@ if __name__ == "__main__":
                         testmatch          3d
                         nextweek           1w
                         """)
-
+    parser.add_argument("--year", default=2017,type=int, help="Year of data taking.")
+    parser.add_argument("--isMC", default=False, action='store_true', help="Is MC or not.")
     parser.add_argument("--post_proc", default="post_proc.py", help="Post process script to run.")
     parser.add_argument("--transfer_input_files", default="keep_and_drop.txt", help="Files to be transferred as input.")
 
