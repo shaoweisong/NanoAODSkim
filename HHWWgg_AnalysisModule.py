@@ -41,7 +41,7 @@ class HHWWgg_AnalysisProducer(Module):
         # muons = Collection(event, "Muon")
         # jets = Collection(event, "Jet")
         # fatJets = Collection(event, "FatJet")
-        photons = Collection(event, "Photon")
+        # photons = Collection(event, "Photon")
         keepIt = True
 
         if passFilters(event, int(self.year)):
@@ -52,12 +52,12 @@ class HHWWgg_AnalysisProducer(Module):
         # eventMuons = 0
         # eventJets = 0
         # eventFatJets = 0
-        eventPhotons = 0
+        # eventPhotons = 0
 
-        for pho in photons :
-            if pho.pt > 25 and pho.scEta < 2.5 and (pho.scEta < 1.4442 or pho.scEta > 1.566) :
+        # for pho in photons :
+            # if pho.pt > 25 and pho.scEta < 2.5 and (pho.scEta < 1.4442 or pho.scEta > 1.566) :
             # if pho.pt > 25 and pho.eta < 2.5 and (pho.eta < 1.4442 or pho.eta > 1.566) :
-               eventPhotons += 1
+            #    eventPhotons += 1
         # for lep in muons :
         #     if lep.tightId and lep.pt > 10 :
         #         eventMuons += 1
@@ -71,8 +71,8 @@ class HHWWgg_AnalysisProducer(Module):
         #     if fatjet.pt > 20:
         #        eventFatJets += 1
 
-        if not ( eventPhotons >= 2 ):
-            keepIt = False
+        # if not ( eventPhotons >= 2 ):
+            # keepIt = False
 
         return keepIt
 
