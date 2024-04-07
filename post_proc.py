@@ -66,8 +66,7 @@ def main():
 
     # Determine the year and type (MC or Data)
     first_file = testfilelist[0]
-    # isMC = "UL201" not in first_file
-    isMC = "signal" in first_file
+
 
     if "UL18" in first_file or "UL2018" in first_file:
         """UL2018 for identification of 2018 UL data and UL18 for identification of 2018 UL MC
@@ -95,12 +94,11 @@ def main():
     # H4LCppModule = lambda: HZZAnalysisCppProducer(year,cfgFile, isMC, isFSR)
     HHWWgg_AnalysisModule = lambda: HHWWgg_AnalysisProducer(moduleyear)
     modulesToRun.extend([HHWWgg_AnalysisModule()])
-
     print("Input json file: {}".format(jsonFileName))
     print("Input cfg file: {}".format(cfgFile))
     print("isMC: {}".format(isMC))
     print("isFSR: {}".format(isFSR))
-    print(year)
+    print("year: {}".format(year))
     if isMC:
         # btagSF = lambda: btagSFProducer("UL"+str(year), algo="deepjet",selectedWPs=['L','M','T','shape_corr'], sfFileName=sfFileName)
         if year == "2016pre":
@@ -130,6 +128,7 @@ def main():
         PrefireCorr2017 = lambda : PrefCorr('L1prefiring_jetpt_2017BtoF.root', 'L1prefiring_jetpt_2017BtoF', 'L1prefiring_photonpt_2017BtoF.root', 'L1prefiring_photonpt_2017BtoF')
 
         print("read prefire model")
+        print("year: ", year)
         btagSF = lambda: btagSFProducer(era = "UL"+str(year), algo = "deepcsv")
         if year == 2018: puyear = 2018
         if year == 2017: puyear = 2017

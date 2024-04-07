@@ -97,7 +97,7 @@ nanoAOD skiming code for X->HH->WWgg studies.
 3. [scripts/condor_resubmit.py](scripts/condor_resubmit.py): This script can be used to resubmit the failed condor jobs. It takes the condor log files as input and resubmits the failed jobs. It can be used as follows:
 
    ```bash
-   python scripts/condor_resubmit.py <condor_log_file_base_path>
+   python3 condor_resubmit.py -j <condor_job.jdl>  -l <condor_log_file_base_path> -o <condor_output_file_path> -n 1 -d True
    ```
 
 ## Few important points
