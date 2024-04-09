@@ -56,10 +56,11 @@ def main(args):
     print("dirName",dirName)
     # create tarball of present working CMSSW base directory
     import makeTarFile
-    if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
-    if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, CMSSWRel+".tgz")
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
-    os.system('cp ' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    # if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
+    # if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, CMSSWRel+".tgz")
+    # os.system('cp ' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    os.system('cp /eos/user/s/shsong/' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run 
@@ -96,6 +97,9 @@ def main(args):
             #UL16signal
             sample_name = (lines.split('/')[-1]).strip()
             campaign = lines.split('/')[-1].split('_')[0]
+            if "2024" in sample_name:# because ram's path is different
+                sample_name = (lines.split('/')[-2]).strip()
+                campaign = "GluGluToRadionToHHTo2B2G"
             print("==> sample_name = ",sample_name)
             print("==> campaign = ",campaign)
             ########################################
@@ -130,7 +134,7 @@ def main(args):
             #print "..."
             if use_custom_eos:
                 xrd_redirector = 'root://cms-xrd-global.cern.ch/'
-                output = glob.glob(lines.strip()+"/*.root")
+                output = glob.glob(lines.strip()+"/*.root")[:10]
             else:
                 xrd_redirector = 'root://cms-xrd-global.cern.ch/'
                 output = os.popen('dasgoclient --query="file dataset='+lines.strip()+'"').read()
@@ -143,6 +147,7 @@ def main(args):
                 count_root_files+=1
                 count_jobs += 1
                 mass_point = root_file.split('/')[-2]
+
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
@@ -199,9 +204,9 @@ def main(args):
 
     print("\n#===> Set Proxy Using:")
     print("voms-proxy-init --voms cms --valid 168:00")
-    print("\n# It is assumed that the proxy is created in file: /tmp/x509up_u48539. Update this in below two lines:")
-    print("cp /tmp/x509up_u48539 ~/")
-    print("export X509_USER_PROXY=~/x509up_u48539")
+    print("\n# It is assumed that the proxy is created in file: /tmp/x509up_u138391. Update this in below two lines:")
+    print("cp /tmp/x509up_u138391 ~/")
+    print("export X509_USER_PROXY=~/x509up_u138391")
     print("\n#Submit jobs:")
     print("condor_submit "+condor_file_name+".jdl")
     #os.system("condor_submit "+condor_file_name+".jdl")
@@ -221,7 +226,7 @@ if __name__ == "__main__":
     parser.add_argument("--eos_output_path", default='', help="Initial path for operations.")
     parser.add_argument("--condor_log_path", default='./', help="Path where condor log should be saved. By default is the current working directory")
     parser.add_argument("--condor_file_name", default='submit_condor_jobs_lnujj_', help="Name for the condor file.")
-    parser.add_argument("--condor_queue", default="microcentury", help="""
+    parser.add_argument("--condor_queue", default="longlunch", help="""
                         Condor queue options: (Reference: https://twiki.cern.ch/twiki/bin/view/ABPComputing/LxbatchHTCondor#Queue_Flavours)
 
                         name            Duration
