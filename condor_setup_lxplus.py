@@ -58,9 +58,9 @@ def main(args):
     import makeTarFile
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
     # if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
-    # if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, CMSSWRel+".tgz")
-    # os.system('cp ' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
-    os.system('cp /eos/user/s/shsong/' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, CMSSWRel+".tgz")
+    os.system('cp ' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    # os.system('cp /eos/user/s/shsong/' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run 
@@ -151,7 +151,7 @@ def main(args):
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
-                outjdl_file.write("Arguments = "+(xrd_redirector+root_file.split('/eos/cms')[1])+" "+output_path+"  "+EOS_Output_path+"\n")
+                outjdl_file.write("Arguments = "+(xrd_redirector+root_file.split('/eos/cms')[1])+" "+output_path+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+EOS_Output_path+"\n")
                 outjdl_file.write("Queue \n")
             print("Number of files: ",count_root_files)
             print("Number of jobs (till now): ",count_jobs)
@@ -186,12 +186,12 @@ def main(args):
     outScript.write("\n"+'echo "====> List root files : " ');
     outScript.write("\n"+'ls *.root');
     outScript.write("\n"+'echo "====> copying *.root file to stores area..." ');
-    outScript.write("\n"+'if ls *_Skim.root 1> /dev/null 2>&1; then');
-    outScript.write("\n"+'    echo "File *_Skim.root exists. Copy this."');
-    outScript.write("\n"+'    echo "cp *_Skim.root ${2}"');
-    outScript.write("\n"+'    cp  *_Skim.root ${2}');
+    outScript.write("\n"+'if ls *skimmed*.root 1> /dev/null 2>&1; then');
+    outScript.write("\n"+'    echo "File *skimmed*.root exists. Copy this."');
+    outScript.write("\n"+'    echo "cp *skimmed*.root ${2}"');
+    outScript.write("\n"+'    cp  *skimmed*.root ${2}');
     outScript.write("\n"+'else');
-    outScript.write("\n"+'    echo "file *_Skim.root does not exists, so copy *.root file."');
+    outScript.write("\n"+'    echo "file *skimmed*.root does not exists, so copy *.root file."');
     outScript.write("\n"+'    echo "cp *.root ${2}"');
     outScript.write("\n"+'    cp  *.root ${2}');
     outScript.write("\n"+'fi');

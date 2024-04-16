@@ -39,6 +39,10 @@ keep FatJet_pt_jesTotalDown
 keep FatJet_pt_jesTotalUp
 keep FatJet_pt_jerUp
 keep FatJet_pt_jerDown
+keep Jet_pt_jesHEMIssueUp
+keep Jet_pt_jesHEMIssueDown
+keep FatJet_pt_jesHEMIssueUp
+keep FatJet_pt_jesHEMIssueDown
 keep Muon_corrected_pt
 keep Muon_correctedUp_pt
 keep Muon_correctedDown_pt
