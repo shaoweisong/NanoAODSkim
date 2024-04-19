@@ -82,3 +82,7 @@ keep Muon*
 drop FatJet_inclParTMDV1_hid*
 drop Jet_hf*
 drop Flag*
+keep Jet_pt_jesHEMIssueUp
+keep Jet_pt_jesHEMIssueDown
+keep FatJet_pt_jesHEMIssueUp
+keep FatJet_pt_jesHEMIssueDown

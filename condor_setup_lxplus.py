@@ -57,7 +57,7 @@ def main(args):
     # create tarball of present working CMSSW base directory
     import makeTarFile
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
-    # if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
+    if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
     if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, CMSSWRel+".tgz")
     os.system('cp ' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
     # os.system('cp /eos/user/s/shsong/' + CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
@@ -134,7 +134,7 @@ def main(args):
             #print "..."
             if use_custom_eos:
                 xrd_redirector = 'root://cms-xrd-global.cern.ch/'
-                output = glob.glob(lines.strip()+"/*.root")[:10]
+                output = glob.glob(lines.strip()+"/*.root")
             else:
                 xrd_redirector = 'root://cms-xrd-global.cern.ch/'
                 output = os.popen('dasgoclient --query="file dataset='+lines.strip()+'"').read()
