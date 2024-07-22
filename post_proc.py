@@ -102,10 +102,14 @@ def main():
     if isMC:
         # btagSF = lambda: btagSFProducer("UL"+str(year), algo="deepjet",selectedWPs=['L','M','T','shape_corr'], sfFileName=sfFileName)
         if year == "2016pre":
-            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR2016.txt', 2016)
+            # muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR2016.txt', 2016)
+            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR2016aUL.txt', 2016)
             LHEScaleSF  = lambda : LHEScaleWeightProducer(2016)
+        elif year == 2016:
+            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR2016bUL.txt', 2016)
+            LHEScaleSF  = lambda : LHEScaleWeightProducer
         else:
-            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR'+str(year)+'.txt', year)
+            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR'+str(year)+'UL.txt', year)
             LHEScaleSF  = lambda : LHEScaleWeightProducer(year)
         # Format year string for gammaSFProducer
         if year == 2018: gammaYear = "UL18"
@@ -153,7 +157,7 @@ def main():
     else:
         jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK4PFchs")
         fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK8PFPuppi")
-        muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v3', 'RoccoR'+str(year)+'.txt', year)
+        muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR'+str(year)+'UL.txt', year)
         modulesToRun.extend([jetmetCorrector(), fatJetCorrector()])
 
         p=PostProcessor(".",testfilelist, None, None, modules = modulesToRun, provenance=True, fwkJobReport=False,haddFileName="skimmed_nano_data.root", jsonInput=jsonFileName, maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop_data.txt")

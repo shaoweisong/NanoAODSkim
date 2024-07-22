@@ -105,7 +105,6 @@ class gammaSFProducer(Module):
         pt_down=pts*(1-sf_photons/100.)
         self.out.fillBranch("Photon_pt_ScaleUp", pt_up)
         self.out.fillBranch("Photon_pt_ScaleDown", pt_down)
-
         return True
 
 
