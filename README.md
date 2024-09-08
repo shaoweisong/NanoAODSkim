@@ -44,7 +44,7 @@ nanoAOD skiming code for H->ZZ->2l2Q studies.
 
    ```bash
    cd $CMSSW_BASE/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim
-   python post_proc.py
+   python post_proc.py --entriesToRun 100 --inputFile /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAOD_Mar2024/UL2016APV_bkg/UL2016APV/GJets_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/3BFDC88D-0A2C-7048-A753-60744E058B0D.root -m True -y 2016preVFP
    ```
 
 5. batch job submission.
