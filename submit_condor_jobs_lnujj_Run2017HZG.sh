@@ -17,9 +17,10 @@ echo "..."
 cat post_proc.py
 echo "..."
 echo "========================================="
-python post_proc.py --moduleyear "2017" --isMC True --entriesToRun 0  --inputFile ${1} 
+python post_proc.py -y 2017 -m True --entriesToRun 0  --inputFile ${1} 
 echo "====> List root files : " 
 ls *.root
+echo "====> copying *.root file to stores area..." 
 cp *_Skim.root ${2}/
 rm *.root
 cd ${_CONDOR_SCRATCH_DIR}

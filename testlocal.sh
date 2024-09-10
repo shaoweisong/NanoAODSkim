@@ -4,4 +4,4 @@ python condor_setup_lxplus.py  --input_file sample_list_v9_2018SL.dat --eos_outp
 python condor_setup_lxplus.py  --input_file sample_list_v9_2018bbgg.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2018_HHsignal/ --use_custom_eos --submission_name Run2018_bbgg --year 2018 --isMC --DontCreateTarFile
 python condor_setup_lxplus.py  --input_file sample_list_v9_2017signal.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2017_HHsignal/ --use_custom_eos --submission_name Run2017 --year 2017 --isMC --DontCreateTarFile
 
-python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/shsong/Customized/HZgMC17 --submission_name Run2017HZG --year "2017" --isMC --DontCreateTarFile
+python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/shsong/Customized/HZgMCUL17 --submission_name Run2017HZG --year "2017" --isMC --DontCreateTarFile

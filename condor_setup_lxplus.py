@@ -58,19 +58,15 @@ def main(args):
     import makeTarFile
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
     if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
-    if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/user/s/shsong/"+CMSSWRel+".tgz")
-    os.system('cp ' +"/eos/user/s/shsong/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz")
+    
+    os.system('cp ' +"/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run+" -y "+year+" -m "+str(isMC)  
 
     Transfer_Input_Files = ("keep_and_drop.txt")     # FIXME: Generalise this.
-    # Transfer_Input_Files = ("Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt, " +
-    #                         "Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt, " +
-    #                         "Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt, " +
-    #                         "keep_and_drop_data.txt")
 
-    #with open('input_data_Files/sample_list_v6_2017_campaign.dat') as in_file:
     with open('input_data_Files/'+InputFileFromWhereReadDASNames) as in_file:
         outjdl_file = open(condor_file_name+".jdl","w")
         outjdl_file.write("+JobFlavour   = \""+condor_queue+"\"\n")

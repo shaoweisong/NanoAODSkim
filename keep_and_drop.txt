@@ -73,3 +73,5 @@ keep FatJet_*
 keep Gen*
 keep Jet_*
 keep Muon*
+keep TrigObj*
+keep Flag*
