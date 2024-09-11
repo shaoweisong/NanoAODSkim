@@ -144,8 +144,7 @@ dmypy.json
 # user added...
 br.sm1
 br.sm2
-*.dat
-*.DAT
+# *.dat
 # *.txt
 *.tbl
 *.LHgrid
