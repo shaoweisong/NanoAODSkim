@@ -9,7 +9,7 @@ keep lumi*
 #
 #     Trigger
 #
-keep HLT_Diphoton30_*
+keep HLT_*
 #
 keep Flag*
 #

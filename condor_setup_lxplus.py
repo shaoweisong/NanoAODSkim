@@ -57,10 +57,15 @@ def main(args):
     if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
     import makeTarFile
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
-    if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
-    if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz")
+    # if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz")
+    if not DontCreateTarFile: 
+        if not os.path.exists(storeDir):
+            os.makedirs(storeDir)
+        if os.path.exists(storeDir+CMSSWRel+".tgz"):
+            os.system('rm  '+storeDir+CMSSWRel+".tgz")
+        makeTarFile.make_tarfile(cmsswDirPath, storeDir+"/"+CMSSWRel+".tgz")
     
-    os.system('cp ' +"/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    # os.system('cp ' +"/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run+" -y "+year+" -m "+str(isMC)  

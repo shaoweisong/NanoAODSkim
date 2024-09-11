@@ -1,7 +1,7 @@
-python post_proc.py --entriesToRun 100 --inputFile /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAOD_Mar2024/UL2018_HHFHsignal/UL2018/GluGluToRadionToHHTo2G2WTo2G4Q_M-500/759F9C4C-3D88-BA4A-B5C1-7178B804D7ED.root -m True -y 2018
+python post_proc.py --entriesToRun 0 --inputFile /eos/user/s/shsong/HiggsDNA/E3D30224-C63D-CC48-9259-B0BE9FED9BB1.root -m True -y 2017
 python condor_setup_lxplus.py  --input_file sample_list_v9_2018FH.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2018_HHsignal/ --use_custom_eos --submission_name Run2018_FH --year 2018 --isMC --DontCreateTarFile
 python condor_setup_lxplus.py  --input_file sample_list_v9_2018SL.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2018_HHsignal/ --use_custom_eos --submission_name Run2018_SL --year 2018 --isMC --DontCreateTarFile
 python condor_setup_lxplus.py  --input_file sample_list_v9_2018bbgg.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2018_HHsignal/ --use_custom_eos --submission_name Run2018_bbgg --year 2018 --isMC --DontCreateTarFile
 python condor_setup_lxplus.py  --input_file sample_list_v9_2017signal.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2017_HHsignal/ --use_custom_eos --submission_name Run2017 --year 2017 --isMC --DontCreateTarFile
 
-python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/shsong/Customized/HZgMCUL17 --submission_name Run2017HZG --year "2017" --isMC --DontCreateTarFile
+python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/shsong/Customized/HZgMCUL17 --submission_name Run2017HZG --year "2017" --isMC 
