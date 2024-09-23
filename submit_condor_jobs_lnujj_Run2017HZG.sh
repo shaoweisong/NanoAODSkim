@@ -21,7 +21,7 @@ python post_proc.py -y 2017 -m True --entriesToRun 0  --inputFile ${1}
 echo "====> List root files : " 
 ls *.root
 echo "====> copying *.root file to stores area..." 
-cp *_Skim.root ${2}/
+cp skimmed_nano_mc.root ${2}
 rm *.root
 cd ${_CONDOR_SCRATCH_DIR}
 rm -rf CMSSW_10_6_20

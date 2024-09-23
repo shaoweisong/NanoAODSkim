@@ -127,13 +127,13 @@ def main(args):
 
             count_root_files = 0
             for root_file in output.split():
-                #print "=> ",root_file
+
                 count_root_files+=1
                 count_jobs += 1
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
-                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+output_path+"  "+EOS_Output_path+ " " + (root_file.split('/')[-1]).split('.')[0] + "\n")
+                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+output_path+"/"+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+EOS_Output_path+"\n")
                 outjdl_file.write("Queue \n")
             print("Number of files: ",count_root_files)
             print("Number of jobs (till now): ",count_jobs)
@@ -177,7 +177,7 @@ def main(args):
     # outScript.write("\n"+'    echo "cp *.root ${2}/${4}_Skim.root"');
     # outScript.write("\n"+'    cp  *.root ${2}/${4}_Skim.root');
     # outScript.write("\n"+'fi');
-    outScript.write("\n"+'cp *_Skim.root ${2}/');
+    outScript.write("\n"+'cp skimmed_nano_mc.root ${2}');
     outScript.write("\n"+'rm *.root');
     outScript.write("\n"+'cd ${_CONDOR_SCRATCH_DIR}');
     outScript.write("\n"+'rm -rf ' + CMSSWRel);
