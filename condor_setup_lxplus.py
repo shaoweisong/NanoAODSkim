@@ -178,7 +178,7 @@ def main(args):
     outScript.write("\n"+'cat post_proc.py');
     outScript.write("\n"+'echo "..."');
     outScript.write("\n"+'echo "========================================="');
-    outScript.write("\n"+command + " --entriesToRun 0  --inputFile ${1} -y " + str(year) + " -m "+ str(isMC) );
+    outScript.write("\n"+command + " --entriesToRun 0  --inputFile ${1} -y " + year + " -m "+ str(isMC) );
     outScript.write("\n"+'echo "====> List root files : " ');
     outScript.write("\n"+'ls *.root');
     outScript.write("\n"+'echo "====> copying *.root file to stores area..." ');
@@ -222,7 +222,7 @@ if __name__ == "__main__":
     parser.add_argument("--eos_output_path", default='', help="Initial path for operations.")
     parser.add_argument("--condor_log_path", default='./', help="Path where condor log should be saved. By default is the current working directory")
     parser.add_argument("--condor_file_name", default='submit_condor_jobs_lnujj_', help="Name for the condor file.")
-    parser.add_argument("--condor_queue", default="longlunch", help="""
+    parser.add_argument("--condor_queue", default="workday", help="""
                         Condor queue options: (Reference: https://twiki.cern.ch/twiki/bin/view/ABPComputing/LxbatchHTCondor#Queue_Flavours)
 
                         name            Duration
@@ -235,7 +235,7 @@ if __name__ == "__main__":
                         testmatch          3d
                         nextweek           1w
                         """)
-    parser.add_argument("--year", default=2017,type=int, help="Year of data taking.")
+    parser.add_argument("--year", default="2017",type=str, help="Year of data taking.")
     parser.add_argument("--isMC", default=False, action='store_true', help="Is MC or not.")
     parser.add_argument("--post_proc", default="post_proc.py", help="Post process script to run.")
     parser.add_argument("--transfer_input_files", default="keep_and_drop.txt", help="Files to be transferred as input.")
