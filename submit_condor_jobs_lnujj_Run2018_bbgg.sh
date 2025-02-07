@@ -17,19 +17,11 @@ echo "..."
 cat post_proc.py
 echo "..."
 echo "========================================="
-python post_proc.py --entriesToRun 0  --inputFile ${1} -y 2018 -m True
+python post_proc.py -y 2018 -m True --entriesToRun 0  --inputFile ${1} 
 echo "====> List root files : " 
 ls *.root
 echo "====> copying *.root file to stores area..." 
-if ls *skimmed*.root 1> /dev/null 2>&1; then
-    echo "File *skimmed*.root exists. Copy this."
-    echo "cp *skimmed*.root ${2}"
-    cp  *skimmed*.root ${2}
-else
-    echo "file *skimmed*.root does not exists, so copy *.root file."
-    echo "cp *.root ${2}"
-    cp  *.root ${2}
-fi
+cp skimmed_nano_mc.root ${2}
 rm *.root
 cd ${_CONDOR_SCRATCH_DIR}
 rm -rf CMSSW_10_6_20
