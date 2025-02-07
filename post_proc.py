@@ -22,7 +22,7 @@ def parse_arguments():
     parser.add_argument("-i", "--inputFile", default="", type=str, help="Input file name")
     parser.add_argument("-n", "--entriesToRun", default=100, type=int, help="Set  to 0 if need to run over all entries else put number of entries to run")
     parser.add_argument("-d", "--DownloadFileToLocalThenRun", default=True, type=bool, help="Download file to local then run")
-    parser.add_argument("-y", "--moduleyear", default=2017, type=int, help="Year of data taking")
+    parser.add_argument("-y", "--moduleyear", default=2017, type=str, help="Year of data taking")
     parser.add_argument("-m", "--isMC", default=False, type=bool, help="Is MC or not")
     return parser.parse_args()
 
@@ -68,7 +68,7 @@ def main():
     first_file = testfilelist[0]
 
 
-    if "UL18" in first_file or "UL2018" in first_file:
+    if "18" in moduleyear:
         """UL2018 for identification of 2018 UL data and UL18 for identification of 2018 UL MC
         """
         year = moduleyear
@@ -76,22 +76,20 @@ def main():
         jsonFileName = "golden_Json/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON.txt"
         sfFileName = "DeepCSV_102XSF_V2.csv"
 
-    if "UL17" in first_file or "UL2017" in first_file:
+    if "17" in moduleyear:
         year = moduleyear
         cfgFile = "Input_2017.yml"
         jsonFileName="golden_Json/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON.txt"
         sfFileName = "DeepCSV_102XSF_V2.csv"
 
-    if "UL16" in first_file or "UL2016" in first_file:
+    if "16" in moduleyear:
         year = moduleyear
-        jsonFileName = "golden_Json/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON.txt"
-        sfFileName = "DeepCSV_102XSF_V2.csv"
-    if "UL2016APV" in first_file:
-        year = "2016pre"
         jsonFileName = "golden_Json/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON.txt"
         sfFileName = "DeepCSV_102XSF_V2.csv"
 
     # H4LCppModule = lambda: HZZAnalysisCppProducer(year,cfgFile, isMC, isFSR)
+    if "16" in moduleyear:
+        moduleyear = "2016"
     HHWWgg_AnalysisModule = lambda: HHWWgg_AnalysisProducer(moduleyear)
     modulesToRun.extend([HHWWgg_AnalysisModule()])
     print("Input json file: {}".format(jsonFileName))
@@ -105,26 +103,28 @@ def main():
             # muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR2016.txt', 2016)
             muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR2016aUL.txt', 2016)
             LHEScaleSF  = lambda : LHEScaleWeightProducer(2016)
-        elif year == 2016:
+        elif year == "2016post":
             muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR2016bUL.txt', 2016)
             LHEScaleSF  = lambda : LHEScaleWeightProducer
         else:
-            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR'+str(year)+'UL.txt', year)
+            muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR'+year+'UL.txt', year)
             LHEScaleSF  = lambda : LHEScaleWeightProducer(year)
         # Format year string for gammaSFProducer
-        if year == 2018: gammaYear = "UL18"
-        if year == 2017: gammaYear = "UL17"
+        if year == "2018": gammaYear = "UL18"
+        if year == "2017": gammaYear = "UL17"
         if year == "2016pre": gammaYear = "UL16Pre-VFP" # FIXME: update this
-        if year == 2016: gammaYear = "UL16Post-VFP" # FIXME: update this
-        if year == 2018: jetYear = "UL2018"
-        if year == 2017: jetYear = "UL2017"
+        if year == "2016post": gammaYear = "UL16Post-VFP" # FIXME: update this
+        if year == "2018": jetYear = "UL2018"
+        if year == "2017": jetYear = "UL2017"
         if year == "2016pre": jetYear = "UL2016_preVFP" # FIXME: update this
-        if year == 2016: jetYear = "UL2016" # FIXME: update this
-        if year == 2018: fixvalue = True
-        if year == 2017: fixvalue = False
+        if year == "2016post": jetYear = "UL2016" # FIXME: update this
+        if year == "2018": fixvalue = True
+        if year == "2017": fixvalue = False
         if year == "2016pre": fixvalue = False # FIXME: update this
-        if year == 2016: fixvalue = False # FIXME: update this
+        if year == "2016post": fixvalue = False # FIXME: update this
         gammaSF = lambda: gammaSFProducer(gammaYear)
+        print("gammaYear: ", gammaYear)
+        print("jetYear: ", jetYear)
         jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=jetYear, jesUncert="All", jetType = "AK4PFchs",applyHEMfix=fixvalue)
         fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=jetYear, jesUncert="All", jetType = "AK8PFPuppi",applyHEMfix=fixvalue)
         PrefireCorr2016 = lambda : PrefCorr("L1prefiring_jetpt_2016BtoH.root", "L1prefiring_jetpt_2016BtoH", "L1prefiring_photonpt_2016BtoH.root", "L1prefiring_photonpt_2016BtoH")
@@ -134,23 +134,23 @@ def main():
         print("read prefire model")
         print("year: ", year)
         btagSF = lambda: btagSFProducer(era = "UL"+str(year), algo = "deepcsv")
-        if year == 2018: puyear = 2018
-        if year == 2017: puyear = 2017
+        if year == "2018": puyear = 2018
+        if year == "2017": puyear = 2017
         if year == "2016pre": puyear = 2016
-        if year == 2016: puyear = 2016
+        if year == "2016post": puyear = 2016
         puidSF = lambda: JetSFMaker("%s" % puyear)
-        if year == 2016:
+        if year == "2016post":
             modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
         if year == "2016pre":
             modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2016()])
-        if year == 2017:
+        if year == "2017":
             modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF(),PrefireCorr2017()])
-        if year == 2018:
+        if year == "2018":
             print(fixvalue)
             modulesToRun.extend([jetmetCorrector(), fatJetCorrector(), puidSF(), muonScaleRes(), gammaSF(),LHEScaleSF()])
-        if year == 2018: modulesToRun.extend([puAutoWeight_UL2018()])
-        if year == 2017: modulesToRun.extend([puAutoWeight_UL2017()])
-        if year == 2016: modulesToRun.extend([puAutoWeight_UL2016()])
+        if year == "2018": modulesToRun.extend([puAutoWeight_UL2018()])
+        if year == "2017": modulesToRun.extend([puAutoWeight_UL2017()])
+        if year == "2016post": modulesToRun.extend([puAutoWeight_UL2016()])
         if year == "2016pre": modulesToRun.extend([puAutoWeight_UL2016()])
 
         p=PostProcessor(".",testfilelist, None, None,modules = modulesToRun, provenance=True,fwkJobReport=False,haddFileName="skimmed_nano_mc.root", maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop.txt")
