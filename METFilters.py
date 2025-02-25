@@ -69,6 +69,7 @@ def passFilters(event, year, debug=False):
             return False
         if debug: print("DEBUG: Flag_hfNoisyHitsFilter passed")
         return True
+
     else:
         print("ERROR: Invalid year: {}".format(year))
         exit(1)

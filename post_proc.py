@@ -105,7 +105,7 @@ def main():
             LHEScaleSF  = lambda : LHEScaleWeightProducer(2016)
         elif year == "2016post":
             muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR2016bUL.txt', 2016)
-            LHEScaleSF  = lambda : LHEScaleWeightProducer
+            LHEScaleSF  = lambda : LHEScaleWeightProducer(2016)
         else:
             muonScaleRes = lambda: muonScaleResProducer('roccor.Run2.v5', 'RoccoR'+year+'UL.txt', year)
             LHEScaleSF  = lambda : LHEScaleWeightProducer(year)
