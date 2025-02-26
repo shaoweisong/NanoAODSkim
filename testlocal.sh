@@ -1,4 +1,4 @@
-python post_proc.py --entriesToRun 100 --inputFile /eos/cms/store/group/phys_b2g/zhenxuan/custom_nanoAOD/YH_beforeSKIM/UL2018_ttgg_signal/UL2018/GluGluToRadionToHHTo2G2Tau_M-1000/GluGluToRadionToHHTo2G2Tau_M-1000_6266116_15_CAD7E318CE0B.root -m True -y 2018
+python post_proc.py --entriesToRun 100 --inputFile /eos/user/s/shsong/5B123882-8484-1B47-9A07-57F8F526F6EF.root -m True -y 2018
 python condor_setup_lxplus.py  --input_file sample_list_v9_2018FH.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2018_HHsignal/ --use_custom_eos --submission_name Run2018_FH --year 2018 --isMC --DontCreateTarFile
 python condor_setup_lxplus.py  --input_file sample_list_v9_2018SL.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2018_HHsignal/ --use_custom_eos --submission_name Run2018_SL --year 2018 --isMC --DontCreateTarFile
 python condor_setup_lxplus.py  --input_file sample_list_v9_2018bbgg.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAODsys_Mar2024/UL2018_HHsignal/ --use_custom_eos --submission_name Run2018_bbgg --year 2018 --isMC --DontCreateTarFile

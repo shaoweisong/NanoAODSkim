@@ -39,6 +39,12 @@ nanoAOD skiming code for H->ZGamma studies.
    python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2017HZG --year "2017" --isMC 
    python condor_setup_lxplus.py  --input_file sample_hzg2018.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2018HZG --year "2018" --isMC 
    python condor_setup_lxplus.py  --input_file sample_hzg2016pre.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016preHZG --year "2016preVFP" --isMC 
-   python condor_setup_lxplus.py  --input_file sample_hzg2016post.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016postHZG --year "2018postVFP" --isMC 
+   python condor_setup_lxplus.py  --input_file sample_hzg2016post.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016postHZG --year "2016postVFP" --isMC 
+   ```
+   For background:
+   python condor_setup_lxplus.py  --input_file hzg_bkg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2017HZG_bkg --year "2017" --isMC 
+   python condor_setup_lxplus.py  --input_file hzg_bkg2018.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2018HZG_bkg --year "2018" --isMC 
+   python condor_setup_lxplus.py  --input_file hzg_bkg2016pre.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016preHZG_bkg --year "2016preVFP" --isMC 
+   python condor_setup_lxplus.py  --input_file hzg_bkg2016post.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016postHZG_bkg --year "2016postVFP" --isMC 
    
    ```
