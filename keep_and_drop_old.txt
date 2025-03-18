@@ -1,0 +1,38 @@
+# this is a comment
+drop * # start with all
+
+#
+#
+#
+keep L1PreFiringWeight_Nom
+keep btagWeight_DeepCSVB
+keep btagWeight_CSVV2
+keep genWeight
+keep Generator_weight
+keep HLT_Mu*
+keep HLT_IsoMu*
+keep HLT_IsoTkMu*
+keep HLT_Ele*
+keep Photon_*
+keep FsrPhoton*
+keep Muon*
+keep Electron*
+keep Jet*
+keep MET*
+keep GenPart*
+keep genWeight
+keep run
+keep genWeight
+keep run
+keep event
+keep luminosityBlock
+keep fixedGridRhoAll
+keep Pileup_nTrueInt
+keep L1PreFiring*
+keep Muon_corrected*
+keep LHEScaleWeight_Zero
+keep Flag_*
+keep TrigObj*
+keep nPhoton
+keep nElectron
+keep nMuon

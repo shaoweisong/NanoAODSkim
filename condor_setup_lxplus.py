@@ -17,6 +17,7 @@ def main(args):
     use_custom_eos = args.use_custom_eos
     use_custom_eos_cmd = args.use_custom_eos_cmd
     InputFileFromWhereReadDASNames = args.input_file
+    skimmed_output_path = "/eos/project/h/htozg-dy-privatemc/HiggsDNA_skimmed"
     EOS_Output_path = args.eos_output_path
     year = args.year
     isMC = args.isMC
@@ -64,8 +65,8 @@ def main(args):
         if os.path.exists(storeDir+CMSSWRel+".tgz"):
             os.system('rm  '+storeDir+CMSSWRel+".tgz")
         makeTarFile.make_tarfile(cmsswDirPath, storeDir+"/"+CMSSWRel+".tgz")
-    
-    # os.system('cp ' +"/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    else:
+        os.system('cp ' +"/eos/user/s/shsong/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run+" -y "+year+" -m "+str(isMC)  
@@ -133,7 +134,7 @@ def main(args):
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
-                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+output_path+"/"+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+EOS_Output_path+"\n")
+                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+skimmed_output_path+"/"+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+EOS_Output_path+"\n")
                 outjdl_file.write("Queue \n")
             print("Number of files: ",count_root_files)
             print("Number of jobs (till now): ",count_jobs)
