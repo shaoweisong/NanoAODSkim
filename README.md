@@ -34,6 +34,7 @@ nanoAOD skiming code for H->ZGamma studies.
    cd $CMSSW_BASE/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim
    #try this for test
    python post_proc.py --entriesToRun 100 --inputFile /eos/project/h/htozg-dy-privatemc/shsong/Customized/E3D30224-C63D-CC48-9259-B0BE9FED9BB1.root -m True -y 2017
+   python post_proc.py --entriesToRun 100 --inputFile root://cms-xrd-global.cern.ch//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v1/270000/F4C4D341-CEFA-4344-8F66-E7334E963E2E.root -m True -y 2017
    
    if there is Skimmed.root output, you can submit jobs through condor:
    python condor_setup_lxplus.py  --input_file {sample.dat} --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name {any_name} --year {str_year} --isMC 
