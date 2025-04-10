@@ -13,7 +13,7 @@ nanoAOD skiming code for H->ZGamma studies.
    git cms-init
    git cms-merge-topic cbernet:heppy_8_0_11
    cmsenv
-   source /afs/cern.ch/user/s/shsong/public/Heppyconflict/mergeconflict.sh
+   source /afs/cern.ch/user/p/pelai/public/Heppyconflict/mergeconflict.sh
    scram b
 
    cd PhysicsTools/
