@@ -5,6 +5,7 @@ summary.dat
 CMSSW_10*.*
 condor_logs/
 *.jdl
+*.pyc
 # *.sh
 *.root
 *.0

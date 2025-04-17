@@ -11,7 +11,9 @@
 _jet_puid_sf = {
     '2016': {'source': 'PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/data/PUID_80XTraining_EffSFandUncties.root'},
     '2017': {'source': 'PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/data/PUID_80XTraining_EffSFandUncties.root'},
-    '2018': {'source': 'PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/data/PUID_80XTraining_EffSFandUncties.root'}
+    '2018': {'source': 'PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/data/PUID_80XTraining_EffSFandUncties.root'},
+    '2022': {'source': 'PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/data/PUID_80XTraining_EffSFandUncties.root'},
+    '2023': {'source': 'PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim/data/PUID_80XTraining_EffSFandUncties.root'}
 }
 
 for jet, jetTag in [('real','eff'), ('pu','mistag')]:
@@ -26,5 +28,7 @@ jet_puid_sf = {}
 jet_puid_sf['2016'] = _jet_puid_sf['2016']
 jet_puid_sf['2017'] = _jet_puid_sf['2017']
 jet_puid_sf['2018'] = _jet_puid_sf['2018']
+jet_puid_sf['2022'] = _jet_puid_sf['2022']
+jet_puid_sf['2023'] = _jet_puid_sf['2023']
 
 del _jet_puid_sf

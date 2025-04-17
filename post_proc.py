@@ -20,7 +20,7 @@ def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--inputFile", default="", type=str, help="Input file name")
-    parser.add_argument("-n", "--entriesToRun", default=100, type=int, help="Set  to 0 if need to run over all entries else put number of entries to run")
+    parser.add_argument("-n", "--entriesToRun", default=100, type=int, help="Set to 0 if need to run over all entries else put number of entries to run")
     parser.add_argument("-d", "--DownloadFileToLocalThenRun", default=True, type=bool, help="Download file to local then run")
     parser.add_argument("-y", "--moduleyear", default="2017", type=str, help="Year of data taking")
     parser.add_argument("-m", "--isMC", default=True, type=bool, help="Is MC or not")
@@ -66,6 +66,45 @@ def main():
     # Determine the year and type (MC or Data)
     first_file = testfilelist[0]
     # isMC = "signal" in first_file
+    if moduleyear == "2023postBPix":
+        """2023postBPix for identification of 2023postBPix data and 2023postBPix for identification of 2023postBPix MC
+        """
+        year = moduleyear
+        cfgFile = "Input_2023postBPix.yml"
+        jsonFileName = "golden_Json/Cert_Collisions2023_366442_370790_Golden.json"
+        HZg_AnalysisModule = lambda: HZg_AnalysisProducer(2023)
+        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear="2023postBPix", jesUncert="All", jetType = "AK4PFPuppi", applyHEMfix=True)
+        modulesToRun.extend([jetmetCorrector()])
+
+    if moduleyear == "2023preBPix":
+        """2023preBPix for identification of 2023preBPix data and 2023preBPix for identification of 2023preBPix MC
+        """
+        year = moduleyear
+        cfgFile = "Input_2023preBPix.yml"
+        jsonFileName = "golden_Json/Cert_Collisions2023_366442_370790_Golden.json"
+        HZg_AnalysisModule = lambda: HZg_AnalysisProducer(2023)
+        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear="2023preBPix", jesUncert="All", jetType = "AK4PFPuppi", applyHEMfix=True)
+        modulesToRun.extend([jetmetCorrector()])
+
+    if moduleyear == "2022postEE":
+        """2022postEE for identification of 2022postEE data and 2022postEE for identification of 2022postEE MC
+        """
+        year = moduleyear
+        cfgFile = "Input_2022postEE.yml"
+        jsonFileName = "golden_Json/Cert_Collisions2022_355100_362760_Golden.json"
+        HZg_AnalysisModule = lambda: HZg_AnalysisProducer(2022)
+        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear="2022preEE", jesUncert="All", jetType = "AK4PFPuppi", applyHEMfix=True)
+        modulesToRun.extend([jetmetCorrector()])
+
+    if moduleyear == "2022preEE":
+        """2022preEE for identification of 2022preEE data and 2022preEE for identification of 2022preEE MC
+        """
+        year = moduleyear
+        cfgFile = "Input_2022preEE.yml"
+        jsonFileName = "golden_Json/Cert_Collisions2022_355100_362760_Golden.json"
+        HZg_AnalysisModule = lambda: HZg_AnalysisProducer(2022)
+        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear="2022preEE", jesUncert="All", jetType = "AK4PFPuppi", applyHEMfix=True)
+        modulesToRun.extend([jetmetCorrector()])
 
     if moduleyear == "2018":
         """UL2018 for identification of 2018 UL data and UL18 for identification of 2018 UL MC
@@ -77,9 +116,10 @@ def main():
         HZg_AnalysisModule = lambda: HZg_AnalysisProducer(2018)
         LHEScaleSF  = lambda : LHEScaleWeightProducer(2018)
         gammaSF = lambda: gammaSFProducer("UL18")
-        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear="UL2018", jesUncert="All", jetType = "AK4PFchs",applyHEMfix=True)
+        jetmetCorrector = createJMECorrector(isMC=isMC, dataYear="UL2018", jesUncert="All", jetType = "AK4PFchs", applyHEMfix=True)
         puidSF = lambda: JetSFMaker("%s" % 2018)
         modulesToRun.extend([jetmetCorrector(), puidSF(), gammaSF(),LHEScaleSF(),puAutoWeight_UL2018(),muonScaleRes2018()])
+    
     if moduleyear == "2017":
         year = moduleyear
         cfgFile = "Input_2017.yml"
@@ -119,7 +159,7 @@ def main():
 
 
     if isMC:
-        p=PostProcessor(".",testfilelist, None, None,modules = modulesToRun, provenance=True,fwkJobReport=False,haddFileName="skimmed_nano_mc.root", maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop.txt")
+        p=PostProcessor(".",testfilelist, None, None, modules = modulesToRun, provenance=True,fwkJobReport=False,haddFileName="skimmed_nano_mc.root", maxEntries=entriesToRun, prefetch=DownloadFileToLocalThenRun, outputbranchsel="keep_and_drop.txt")
     else:
         jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=year, jesUncert="All", jetType = "AK4PFchs")
         modulesToRun.extend([jetmetCorrector()])
