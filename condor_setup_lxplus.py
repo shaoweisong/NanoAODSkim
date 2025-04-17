@@ -19,17 +19,9 @@ def main(args):
     use_custom_eos_cmd = args.use_custom_eos_cmd
     InputFileFromWhereReadDASNames = args.input_file
     skimmed_output_path = "/eos/project/h/htozg-dy-privatemc/HiggsDNA_skimmed"
-    # skimmed_output_path = "/eos/home-p/pelai/HZgamma/NanoAOD_Skim/run3/Bkg_MC"
-    EOS_Output_path = args.eos_output_path
     year = args.year
     isMC = args.isMC
-    if EOS_Output_path == "":
-        # Get the username and its initial and set the path as /eos/user/<UserInitials>/<UserName>/nanoAOD_ntuples
-        username = os.environ['USER']
-        user_initials = username[0:1]
-        EOS_Output_path = '/eos/user/'+user_initials+'/'+username+'/nanoAOD_ntuples'
-    if submission_name != "":
-        EOS_Output_path = EOS_Output_path + '/' + submission_name
+
     condor_log_path = args.condor_log_path
 
     # Get top-level directory name from PWD
@@ -37,7 +29,7 @@ def main(args):
     condor_file_name = args.condor_file_name
     condor_queue = args.condor_queue
     DontCreateTarFile = args.DontCreateTarFile
-    condor_file_name = 'submit_condor_jobs_HZG_Bkg_'+submission_name
+    condor_file_name = 'submit_condor_jobs_HZG_'+submission_name
 
     # Create log files
     import infoCreaterGit
@@ -51,9 +43,9 @@ def main(args):
 
     # Create directories for storing log files and output files at EOS.
     import fileshelper
-    dirsToCreate = fileshelper.FileHelper( (condor_log_path + '/condor_logs/'+submission_name).replace("//","/"), EOS_Output_path)
+    dirsToCreate = fileshelper.FileHelper( (condor_log_path + '/condor_logs/'+submission_name).replace("//","/"), skimmed_output_path)
     output_log_path = dirsToCreate.create_log_dir_with_date()
-    storeDir = dirsToCreate.create_store_area(EOS_Output_path)
+    storeDir = dirsToCreate.create_store_area(skimmed_output_path)
     dirName = dirsToCreate.dir_name
 
     # create tarball of present working CMSSW base directory
@@ -68,7 +60,7 @@ def main(args):
             os.system('rm  '+storeDir+CMSSWRel+".tgz")
         makeTarFile.make_tarfile(cmsswDirPath, storeDir+"/"+CMSSWRel+".tgz")
     else:
-        os.system('cp ' +"/eos/user/p/pelai/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+        print("Skipping tar file creation ")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run+" -y "+year+" -m "+str(isMC)  
@@ -98,6 +90,9 @@ def main(args):
             SampleDASName = physics_path
 
             count = count +1
+            higgsdna_sample_name = SampleDASName.split(" ")[0]
+            SampleDASName = SampleDASName.split(" ")[1]
+            print("samplenameis:",SampleDASName)
             #if count > 1: break
             print(style.RED +"="*51+style.RESET+"\n")
             print ("==> Sample : ",count)
@@ -111,14 +106,14 @@ def main(args):
             #
             ########################################
             if (SampleDASName.strip()).endswith("/NANOAOD"): # if the sample name ends with /NANOAOD, then it is a data if it ends with /NANOAODSIM then it is a MC. As the line contain the "\n" at the end, so we need to use the strip() function.
-                output_string = sample_name + os.sep + campaign + os.sep + dirName
-                output_path = EOS_Output_path + os.sep + output_string
+                output_string = higgsdna_sample_name + "_" + year
+                output_path = skimmed_output_path + os.sep + output_string
                 print("==> output_path = ",output_path)
                 os.system("mkdir -p "+ output_path)
                 infoLogFiles.send_git_log_and_patch_to_eos(output_path)
             else:
-                output_string = campaign + os.sep + sample_name + os.sep + dirName
-                output_path = EOS_Output_path+ os.sep + output_string
+                output_string = higgsdna_sample_name + "_" + year
+                output_path = skimmed_output_path+ os.sep + output_string
                 print("==> output_path = ",output_path)
                 os.system("mkdir -p "+output_path)
                 infoLogFiles.send_git_log_and_patch_to_eos(output_path)
@@ -136,18 +131,6 @@ def main(args):
 
             count_root_files = 0
             
-            # Pei-Zhu
-            # Add Directory name before skimmed root
-            # DYGto2LG_10to50 + _ + 2022preEE
-            directory_name = physics_name+"_"+year
-            output_skimmed_file_dir = os.path.join(skimmed_output_path, directory_name)
-            try:
-                os.system("mkdir -p %s" % (output_skimmed_file_dir))
-                print("Created directory: %s" % output_skimmed_file_dir)
-            except:
-                print("Failed to create directory %s" % (output_skimmed_file_dir))
-                sys.exit(1)
-            
             for root_file in output.split():
 
                 count_root_files+=1
@@ -155,7 +138,7 @@ def main(args):
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
-                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+output_skimmed_file_dir+"/"+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+EOS_Output_path+"\n")
+                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+skimmed_output_path+"/"+higgsdna_sample_name+"/"+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+skimmed_output_path+"\n")
                 outjdl_file.write("Queue \n")
             print("Number of files: ",count_root_files)
             print("Number of jobs (till now): ",count_jobs)

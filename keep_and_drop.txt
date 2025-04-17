@@ -10,10 +10,12 @@ keep Photon_dEsigmaUp
 keep Photon_pt_ScaleUp
 keep Photon_pt_ScaleDown
 keep Jet_pt
+
 keep Jet_pt_nom
 keep Jet_pt_jerUp
 keep Jet_pt_jerDown
 keep Jet_pt_jesTotalUp
+
 keep Jet_pt_jesTotalDown
 keep MET_T1_pt
 keep MET_T1_pt_jerUp

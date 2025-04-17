@@ -38,16 +38,21 @@ nanoAOD skiming code for H->ZGamma studies.
 
    if there is Skimmed.root output, you can submit jobs through condor:
    python condor_setup_lxplus.py  --input_file {sample.dat} --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name {any_name} --year {str_year} --isMC 
-   python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2017HZG --year "2017" --isMC 
-   python condor_setup_lxplus.py  --input_file sample_hzg2018.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2018HZG --year "2018" --isMC 
-   python condor_setup_lxplus.py  --input_file sample_hzg2016pre.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016preHZG --year "2016preVFP" --isMC 
-   python condor_setup_lxplus.py  --input_file sample_hzg2016post.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016postHZG --year "2016postVFP" --isMC 
+   python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --year "2017" --isMC --submission_name hzg2017sig --DontCreateTarFile
+   python condor_setup_lxplus.py  --input_file sample_hzg2018.dat --year "2018" --isMC --submission_name hzg2018sig --DontCreateTarFile
+   python condor_setup_lxplus.py  --input_file sample_hzg2016pre.dat --year "2016preVFP" --isMC --submission_name hzg2016presig --DontCreateTarFile
+   python condor_setup_lxplus.py  --input_file sample_hzg2016post.dat --year "2016postVFP" --isMC --submission_name hzg2016postsig --DontCreateTarFile
+   python condor_setup_lxplus.py  --input_file sample_hzg2022preEE.dat --year "2022preEE" --isMC --submission_name hzg2022presig --DontCreateTarFile
+   python condor_setup_lxplus.py  --input_file sample_hzg2022postEE.dat --year "2022postEE" --isMC --submission_name hzg2022postsig --DontCreateTarFile
+   python condor_setup_lxplus.py  --input_file sample_hzg2023preBPix.dat --year "2023preBPix" --isMC --submission_name hzg2023presig --DontCreateTarFile
+   python condor_setup_lxplus.py  --input_file sample_hzg2023postBPix.dat --year "2023postBPix" --isMC --submission_name hzg2023postsig --DontCreateTarFile
+   
    ```
    For background:
    ```
-   python condor_setup_lxplus.py  --input_file hzg_bkg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2017HZG_bkg --year "2017" --isMC 
-   python condor_setup_lxplus.py  --input_file hzg_bkg2018.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2018HZG_bkg --year "2018" --isMC 
-   python condor_setup_lxplus.py  --input_file hzg_bkg2016pre.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016preHZG_bkg --year "2016preVFP" --isMC 
-   python condor_setup_lxplus.py  --input_file hzg_bkg2016post.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/{your_dir} --submission_name Run2016postHZG_bkg --year "2016postVFP" --isMC 
+   python condor_setup_lxplus.py  --input_file hzg_bkg2017.dat --DontCreateTarFile --submission_name Run2017HZG_bkg --year "2017" --isMC 
+   python condor_setup_lxplus.py  --input_file hzg_bkg2018.dat --DontCreateTarFile --submission_name Run2018HZG_bkg --year "2018" --isMC 
+   python condor_setup_lxplus.py  --input_file hzg_bkg2016pre.dat --DontCreateTarFile --submission_name Run2016preHZG_bkg --year "2016preVFP" --isMC 
+   python condor_setup_lxplus.py  --input_file hzg_bkg2016post.dat --DontCreateTarFile --submission_name Run2016postHZG_bkg --year "2016postVFP" --isMC 
    
    ```
