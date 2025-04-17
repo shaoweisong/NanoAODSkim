@@ -5,6 +5,7 @@ python3 condor_setup_lxplus.py
 import argparse
 import os
 import sys
+import subprocess
 
 sys.path.append("Utils/.")
 
@@ -18,6 +19,7 @@ def main(args):
     use_custom_eos_cmd = args.use_custom_eos_cmd
     InputFileFromWhereReadDASNames = args.input_file
     skimmed_output_path = "/eos/project/h/htozg-dy-privatemc/HiggsDNA_skimmed"
+    # skimmed_output_path = "/eos/home-p/pelai/HZgamma/NanoAOD_Skim/run3/Bkg_MC"
     EOS_Output_path = args.eos_output_path
     year = args.year
     isMC = args.isMC
@@ -35,7 +37,7 @@ def main(args):
     condor_file_name = args.condor_file_name
     condor_queue = args.condor_queue
     DontCreateTarFile = args.DontCreateTarFile
-    condor_file_name = 'submit_condor_jobs_lnujj_'+submission_name
+    condor_file_name = 'submit_condor_jobs_HZG_Bkg_'+submission_name
 
     # Create log files
     import infoCreaterGit
@@ -58,7 +60,7 @@ def main(args):
     if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
     import makeTarFile
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
-    # if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/user/s/shsong/HiggsDNA_run3/"+CMSSWRel+".tgz")
+    # if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/user/p/pelai/HiggsDNA_run3/"+CMSSWRel+".tgz")
     if not DontCreateTarFile: 
         if not os.path.exists(storeDir):
             os.makedirs(storeDir)
@@ -66,7 +68,7 @@ def main(args):
             os.system('rm  '+storeDir+CMSSWRel+".tgz")
         makeTarFile.make_tarfile(cmsswDirPath, storeDir+"/"+CMSSWRel+".tgz")
     else:
-        os.system('cp ' +"/eos/user/s/shsong/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+        os.system('cp ' +"/eos/user/p/pelai/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run+" -y "+year+" -m "+str(isMC)  
@@ -88,7 +90,13 @@ def main(args):
         count = 0
         count_jobs = 0
         for SampleDASName in in_file:
+
             if SampleDASName[0] == "#": continue
+            
+            print("============== SampleDASName %s" % SampleDASName)
+            physics_path, physics_name = SampleDASName.strip().split()
+            SampleDASName = physics_path
+
             count = count +1
             #if count > 1: break
             print(style.RED +"="*51+style.RESET+"\n")
@@ -127,6 +135,19 @@ def main(args):
                 output = os.popen('dasgoclient --query="file dataset='+SampleDASName.strip()+'"').read()
 
             count_root_files = 0
+            
+            # Pei-Zhu
+            # Add Directory name before skimmed root
+            # DYGto2LG_10to50 + _ + 2022preEE
+            directory_name = physics_name+"_"+year
+            output_skimmed_file_dir = os.path.join(skimmed_output_path, directory_name)
+            try:
+                os.system("mkdir -p %s" % (output_skimmed_file_dir))
+                print("Created directory: %s" % output_skimmed_file_dir)
+            except:
+                print("Failed to create directory %s" % (output_skimmed_file_dir))
+                sys.exit(1)
+            
             for root_file in output.split():
 
                 count_root_files+=1
@@ -134,7 +155,7 @@ def main(args):
                 outjdl_file.write("Output = "+output_log_path+"/"+sample_name+"_$(Process).stdout\n")
                 outjdl_file.write("Error  = "+output_log_path+"/"+sample_name+"_$(Process).err\n")
                 outjdl_file.write("Log  = "+output_log_path+"/"+sample_name+"_$(Process).log\n")
-                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+skimmed_output_path+"/"+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+EOS_Output_path+"\n")
+                outjdl_file.write("Arguments = "+(xrd_redirector+root_file)+" "+output_skimmed_file_dir+"/"+root_file.split('/')[-1].replace(".root","skimmed.root")+"  "+EOS_Output_path+"\n")
                 outjdl_file.write("Queue \n")
             print("Number of files: ",count_root_files)
             print("Number of jobs (till now): ",count_jobs)
@@ -188,9 +209,9 @@ def main(args):
 
     print("\n#===> Set Proxy Using:")
     print("voms-proxy-init --voms cms --valid 168:00")
-    print("\n# It is assumed that the proxy is created in file: /tmp/x509up_u138391. Update this in below two lines:")
-    print("cp /tmp/x509up_u138391 ~/")
-    print("export X509_USER_PROXY=~/x509up_u138391")
+    print("\n# It is assumed that the proxy is created in file: /tmp/x509up_u175325. Update this in below two lines:")
+    print("cp /tmp/x509up_u175325 ~/")
+    print("export X509_USER_PROXY=~/x509up_u175325")
     print("\n#Submit jobs:")
     print("condor_submit "+condor_file_name+".jdl")
     #os.system("condor_submit "+condor_file_name+".jdl")
@@ -209,7 +230,7 @@ if __name__ == "__main__":
     parser.add_argument("--input_file", default='', required=True,  help="Input file from where to read DAS names.")
     parser.add_argument("--eos_output_path", default='', help="EOS path for output files. By default it is `/eos/user/<UserInitials>/<UserName>/nanoAOD_ntuples`")
     parser.add_argument("--condor_log_path", default='./', help="Path where condor log should be saved. By default is the current working directory")
-    parser.add_argument("--condor_file_name", default='submit_condor_jobs_lnujj_', help="Name for the condor file.")
+    parser.add_argument("--condor_file_name", default='submit_condor_jobs_HZG_Bkg_', help="Name for the condor file.")
     parser.add_argument("--condor_queue", default="testmatch", help="""
                         Condor queue options: (Reference: https://twiki.cern.ch/twiki/bin/view/ABPComputing/LxbatchHTCondor#Queue_Flavours)
 
