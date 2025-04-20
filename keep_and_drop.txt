@@ -9,14 +9,25 @@ keep Photon_dEsigmaDown
 keep Photon_dEsigmaUp
 keep Photon_pt_ScaleUp
 keep Photon_pt_ScaleDown
-keep Jet_pt
 
+keep GenJet_pt
+keep GenJet_eta
+keep GenJet_phi
+keep GenJet_mass
+keep nGenJet
+
+keep Jet_pt
+keep Jet_eta 
+keep Jet_phi
+keep Jet_mass 
 keep Jet_pt_nom
 keep Jet_pt_jerUp
 keep Jet_pt_jerDown
 keep Jet_pt_jesTotalUp
-
 keep Jet_pt_jesTotalDown
+
+keep Jet_matchedGenJet
+
 keep MET_T1_pt
 keep MET_T1_pt_jerUp
 keep MET_T1_pt_jerDown

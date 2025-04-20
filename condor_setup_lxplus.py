@@ -86,8 +86,6 @@ def main(args):
             if SampleDASName[0] == "#": continue
             
             print("============== SampleDASName %s" % SampleDASName)
-            physics_path, physics_name = SampleDASName.strip().split()
-            SampleDASName = physics_path
 
             count = count +1
             higgsdna_sample_name = SampleDASName.split(" ")[0]
@@ -213,7 +211,7 @@ if __name__ == "__main__":
     parser.add_argument("--input_file", default='', required=True,  help="Input file from where to read DAS names.")
     parser.add_argument("--eos_output_path", default='', help="EOS path for output files. By default it is `/eos/user/<UserInitials>/<UserName>/nanoAOD_ntuples`")
     parser.add_argument("--condor_log_path", default='./', help="Path where condor log should be saved. By default is the current working directory")
-    parser.add_argument("--condor_file_name", default='submit_condor_jobs_HZG_Bkg_', help="Name for the condor file.")
+    parser.add_argument("--condor_file_name", default='submit_condor_jobs_HZG_', help="Name for the condor file.")
     parser.add_argument("--condor_queue", default="testmatch", help="""
                         Condor queue options: (Reference: https://twiki.cern.ch/twiki/bin/view/ABPComputing/LxbatchHTCondor#Queue_Flavours)
 

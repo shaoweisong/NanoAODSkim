@@ -33,7 +33,6 @@ nanoAOD skiming code for H->ZGamma studies.
    voms-proxy-init --voms cms --valid 168:00
    cd $CMSSW_BASE/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/nanoAOD_skim
    #try this for test
-   python post_proc.py --entriesToRun 100 --inputFile /eos/project/h/htozg-dy-privatemc/2016APVDY_1/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8__RunIISummer20UL16NanoAODAPVv2-106X_mcRun2_asymptotic_preVFP_v9-v1__privateProduction__job-9.root -m True -y 2017
    python post_proc.py --entriesToRun 100 --inputFile root://cms-xrd-global.cern.ch//store/mc/Run3Summer22NanoAODv12/DYGto2LG-1Jets_MLL-50_PTG-10to50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/NANOAODSIM/130X_mcRun3_2022_realistic_v5-v2/40000/f12fcbb3-a0d9-4050-87ae-708bd6499461.root -m True -y 2022preEE
 
    if there is Skimmed.root output, you can submit jobs through condor:

@@ -8,4 +8,5 @@ python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path
 
 
 
- python post_proc.py --entriesToRun 300 --inputFile root://xrootd-cms.infn.it//store/mc/RunIISummer20UL17NanoAODv9/ttHToZG_ZToLL_M-125_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2520000/07D6096D-7AEF-2B49-96B5-71C412A6BE24.root  -m True -y 2017 
+ python post_proc.py --entriesToRun 1000 --inputFile root://xrootd-cms.infn.it//store/mc/RunIISummer20UL17NanoAODv9/ttHToZG_ZToLL_M-125_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2520000/07D6096D-7AEF-2B49-96B5-71C412A6BE24.root  -m True -y 2017 
+
