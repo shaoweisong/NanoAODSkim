@@ -1,7 +1,7 @@
 import os
 
-directory = '/eos/cms/store/group/phys_b2g/jodervan/nanoAOD_Jul24/UL2017/UL2017'
-output_file = 'sample_list_UL2017_all_graviton2.dat'
+directory = '/eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAOD_Apr2025/UL2017_YHSLsignal_3TeV_4TeV/UL2017'
+output_file = 'sample_list_UL2017_YH_SL2.dat'
 
 subdirs = [os.path.join(directory, subdir) for subdir in os.listdir(directory) if os.path.isdir(os.path.join(directory, subdir))]
 

@@ -1,0 +1,1 @@
+python condor_setup_lxplus.py  --input_file sample_list_UL2017_YH_SL1.dat --eos_output_path /eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/nanoAOD_Apr2025/skimmed_2025/UL2017_YHSLsignal/ --use_custom_eos --submission_name Run2017 --year 2017 --isMC
