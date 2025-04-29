@@ -17,7 +17,7 @@ echo "..."
 cat post_proc.py
 echo "..."
 echo "========================================="
-python post_proc.py -y 2022preEE -m True --entriesToRun 0  --inputFile ${1} 
+python post_proc.py -y 2016postVFP -m True --entriesToRun 0  --inputFile ${1} 
 echo "====> List root files : " 
 ls *.root
 echo "====> copying *.root file to stores area..." 

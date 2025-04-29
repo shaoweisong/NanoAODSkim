@@ -7,6 +7,6 @@ python condor_setup_lxplus.py  --input_file sample_list_v9_2017signal.dat --eos_
 python condor_setup_lxplus.py  --input_file sample_hzg2017.dat --eos_output_path /eos/project/h/htozg-dy-privatemc/shsong/Customized/HZgMCUL17 --submission_name Run2017HZG --year "2017" --isMC 
 
 
+python post_proc.py --entriesToRun 100 --inputFile root://xrootd-cms.infn.it//store/mc/RunIISummer20UL17NanoAODv9/ttHToZG_ZToLL_M-125_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2520000/07D6096D-7AEF-2B49-96B5-71C412A6BE24.root  -m True -y 2017 
 
- python post_proc.py --entriesToRun 1000 --inputFile root://xrootd-cms.infn.it//store/mc/RunIISummer20UL17NanoAODv9/ttHToZG_ZToLL_M-125_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2520000/07D6096D-7AEF-2B49-96B5-71C412A6BE24.root  -m True -y 2017 
-
+python post_proc.py --entriesToRun 100 --inputFile root://cms-xrd-global.cern.ch//store/mc/Run3Summer22NanoAODv12/DYGto2LG-1Jets_MLL-50_PTG-10to50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/NANOAODSIM/130X_mcRun3_2022_realistic_v5-v2/40000/f12fcbb3-a0d9-4050-87ae-708bd6499461.root -m True -y 2022preEE

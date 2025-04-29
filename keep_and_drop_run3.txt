@@ -4,10 +4,6 @@ keep run
 keep Muon_corrected_pt
 keep Muon_correctedUp_pt
 keep Muon_correctedDown_pt
-keep Photon_dEsigmaDown
-keep Photon_dEsigmaUp
-keep Photon_pt_ScaleUp
-keep Photon_pt_ScaleDown
 
 keep Jet_eta
 keep Jet_pt_nom

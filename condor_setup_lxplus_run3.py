@@ -65,7 +65,7 @@ def main(args):
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run+" -y "+year+" -m "+str(isMC)  
 
-    Transfer_Input_Files = ("keep_and_drop.txt")     # FIXME: Generalise this.
+    Transfer_Input_Files = ("keep_and_drop_run3.txt")     # FIXME: Generalise this.
 
     with open('input_data_Files/'+InputFileFromWhereReadDASNames) as in_file:
         outjdl_file = open(condor_file_name+".jdl","w")
@@ -229,7 +229,7 @@ if __name__ == "__main__":
     parser.add_argument("--post_proc", default="post_proc.py", help="Post process script to run.")
     parser.add_argument("--year", default="2017",type=str, help="Year of data taking.")
     parser.add_argument("--isMC", default=False, action='store_true', help="Is MC or not.")
-    parser.add_argument("--transfer_input_files", default="keep_and_drop.txt", help="Files to be transferred as input.")
+    parser.add_argument("--transfer_input_files", default="keep_and_drop_run3.txt", help="Files to be transferred as input.")
 
     args = parser.parse_args()
     main(args)

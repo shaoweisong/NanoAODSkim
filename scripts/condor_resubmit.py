@@ -19,16 +19,16 @@ import os
 """
 
 """path of log file directory"""
-#path = "condor_logs/Run2017_v6_DataReDoJEC/200726_173958/"
-#path = "condor_logs/Run2016_v6_DataReDoJEC/200727_064518/"
-#path = "condor_logs/Run2018_v6_DataReDoJEC/200730_103313/"
-path = "condor_logs/Run2017_v7_5Aug20200/200805_032620/"
+path = "condor_logs/Run2022preEE/250421_132109/"
+# path = "condor_logs/Run2022postEE/250421_132410/"
+#path = "condor_logs/Run2023preBPix/250421_132848/"
+#path = "condor_logs/Run2023postBPix/250421_134148/"
 
 """Name of main condor jdl/sh file name"""
-#condor_file_name = "submit_condor_jobs_lnujj_Run2017_v6_DataReDoJEC"
-#condor_file_name = "submit_condor_jobs_lnujj_Run2016_v6_DataReDoJEC"
-#condor_file_name = "submit_condor_jobs_lnujj_Run2018_v6_DataReDoJEC"
-condor_file_name = "submit_condor_jobs_lnujj_Run2017_v7_5Aug20200"
+condor_file_name = "submit_condor_jobs_HZG_Run2022preEE"
+#condor_file_name = "submit_condor_jobs_HZG_Run2022postEE"
+#condor_file_name = "submit_condor_jobs_HZG_Run2023preBPix"
+#condor_file_name = "submit_condor_jobs_HZG_Run2023postBPix"
 
 """This variable `Resubmit_no` is going to append in the new jdl file.
 New jdl file name is the main jdl file + _resubmit_ + Resubmit_no
@@ -45,7 +45,7 @@ string_to_search = "preselected entries from root:"
 
 grepCommand = 'grep -L  "'+string_to_search+'" '+ path + os.sep +'*_1.stdout'
 grepCommand = grepCommand.replace('//','/')
-print 'grep command: ',grepCommand
+print ('grep command: ',grepCommand)
 output = os.popen(grepCommand).read()
 print('output:')
 
@@ -57,7 +57,7 @@ for lines in head:
   outjdl_file.write(lines)
 
 for lines in output.split():
-  print "==> ",lines.strip()
+  print ("==> ",lines.strip())
   # print "==> ",lines.strip().split('/')[-1].replace('.stdout','')
   if lines.strip().split('/')[-1].replace('.stdout','').split('_')[-2] == "resubmit":
     OldRefFile = lines.strip().split('/')[-1].replace('.stdout','').split('_')[-4]
@@ -75,4 +75,4 @@ for lines in output.split():
   outjdl_file.write(updateString)
 outjdl_file.close()
 
-print "===> ",outjdl_file
+print ("===> ",outjdl_file)
