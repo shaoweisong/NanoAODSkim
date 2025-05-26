@@ -58,8 +58,8 @@ def main(args):
     import makeTarFile
     print("copying the "+CMSSWRel+".tgz  file to eos path: "+storeDir+"\n")
     if not DontCreateTarFile: os.system('rm -f CMSSW*.tgz')
-    if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/user/s/shsong/"+CMSSWRel+".tgz")
-    os.system('cp ' +"/eos/user/s/shsong/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
+    if not DontCreateTarFile: makeTarFile.make_tarfile(cmsswDirPath, "/eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/"+CMSSWRel+".tgz")
+    os.system('cp ' +"/eos/cms/store/group/phys_b2g/shsong/nanoAODnTuples/"+CMSSWRel+".tgz" + ' '+storeDir+'/' + CMSSWRel+".tgz")
 
     post_proc_to_run = "post_proc.py"
     command = "python "+post_proc_to_run 
